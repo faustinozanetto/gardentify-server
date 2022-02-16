@@ -16,7 +16,6 @@ export class AuthService implements AuthenticationProvider {
         where: {
           oauthId: details.oauthId,
         },
-
         data: details,
       });
       return user;
@@ -26,19 +25,24 @@ export class AuthService implements AuthenticationProvider {
 
   async createUser(details: UserDetails) {
     return await this.prisma.user.create({
-      data: details,
+      data: {
+        avatar: details.avatar,
+        oauthId: details.oauthId,
+        username: details.username,
+        authProvider: details.authProvider,
+        accessToken: details.accessToken,
+        refreshToken: details.refreshToken,
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+      },
     });
   }
 
   async findUser(oauthId: string): Promise<User | undefined> {
     return await this.prisma.user.findUnique({
       where: { oauthId: oauthId ?? '' },
-      include: {
-        followers: true,
-        following: true,
-        testPresetHistory: true,
-        testPresets: true,
-      },
     });
   }
 }

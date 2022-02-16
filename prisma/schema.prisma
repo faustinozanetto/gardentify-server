@@ -19,6 +19,7 @@ model User {
   oauthId   String  @unique
   firstName String?
   lastName  String?
+  avatar    String
   username  String  @unique
   email     String  @unique
   password  String

@@ -11,11 +11,13 @@ import { PlantsModule } from './modules/plants/plants.module';
 import { PlotsModule } from './modules/plots/plots.module';
 import { HarvestsModule } from './modules/harvests/harvests.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
     // Confige module setup.
     ConfigModule.forRoot({ isGlobal: true, load: [defaultConfig] }),
+    PassportModule.register({ session: true }),
 
     // Prisma module setup.
     PrismaModule.forRoot({

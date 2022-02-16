@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
+import { parseUserAuthProvider } from '../../utils/userUtilts';
 import { CreateUserInput } from './dto/createUser.input';
 import { FindUserInput } from './dto/findUser.input';
 import { User } from './models/user.model';
@@ -25,34 +26,10 @@ export class UsersService {
     // Return found user.
     const parsedUser: User = {
       ...foundUser,
+      authProvider: parseUserAuthProvider(foundUser.authProvider),
     };
     return {
       user: parsedUser,
-    };
-  }
-
-  async createUser(input: CreateUserInput): Promise<UserResponse> {
-    const createdUser = await this.prisma.user.create({
-      data: {
-        ...input,
-      },
-    });
-
-    // Failed to create user.
-    if (!createdUser) {
-      return {
-        errors: [
-          {
-            field: 'input',
-            message: 'Failed to create user',
-          },
-        ],
-      };
-    }
-
-    // Return created user.
-    return {
-      user: createdUser,
     };
   }
 }

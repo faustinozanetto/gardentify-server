@@ -2,12 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Auth {
-  """JWT access token"""
-  accessToken: JWT!
-
-  """JWT refresh token"""
-  refreshToken: JWT!
+"""User auth provider service"""
+enum AuthProvider {
+  DEFAULT
+  DISCORD
+  GITHUB
 }
 
 input CreateHarvestInput {
@@ -31,10 +30,6 @@ input CreatePlotInput {
   sizeX: Float!
   sizeY: Float!
   userUuid: String!
-}
-
-input CreateUserInput {
-  username: String!
 }
 
 """
@@ -85,22 +80,13 @@ type HarvestResponse {
   harvest: Harvest
 }
 
-"""
-A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction.
-"""
-scalar JWT
-
 type Mutation {
   createPlant(input: CreatePlantInput!): PlantResponse!
   createPlantHarvest(input: CreateHarvestInput!): HarvestResponse!
   createPlot(input: CreatePlotInput!): PlotResponse!
-  createUser(input: CreateUserInput!): UserResponse!
   deleteHarvest(input: FindHarvestInput!): DeleteObjectResponse!
   deletePlant(input: FindPlantInput!): DeleteObjectResponse!
   deletePlot(uuid: String!): DeleteObjectResponse!
-  login(data: UserLogInInput!): Auth!
-  refreshToken(token: JWT!): Token!
-  signup(data: UserSignUpInput!): Auth!
 }
 
 type Plant {
@@ -206,7 +192,6 @@ type PlotsResponse {
 
 type Query {
   harvest(input: FindHarvestInput!): HarvestResponse!
-  me: User!
   plantByUuid(uuid: String!): PlantResponse!
   plotByUuid(uuid: String!): PlotResponse!
   plotPlants(input: PlotPlantsInput!): PlantsResponse!
@@ -214,27 +199,16 @@ type Query {
   userPlots(input: UserPlotsInput!): PlotsResponse!
 }
 
-type Token {
-  """JWT access token"""
-  accessToken: JWT!
-
-  """JWT refresh token"""
-  refreshToken: JWT!
-}
-
 type User {
+  authProvider: AuthProvider
   createdAt: DateTime
   email: String
   firstName: String
   lastName: String
+  oauthId: String
   updatedAt: DateTime
   username: String
   uuid: String
-}
-
-input UserLogInInput {
-  email: String!
-  password: String!
 }
 
 input UserPlotsInput {
@@ -246,12 +220,4 @@ input UserPlotsInput {
 type UserResponse {
   errors: [ErrorResponse!]
   user: User
-}
-
-input UserSignUpInput {
-  email: String!
-  firstname: String
-  lastname: String
-  password: String!
-  username: String!
 }

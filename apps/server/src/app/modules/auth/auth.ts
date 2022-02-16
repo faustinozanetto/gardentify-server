@@ -10,6 +10,8 @@ export type UserDetails = {
   refreshToken: string;
 };
 
+export type Done = (err: Error, user: User) => void;
+
 export interface AuthenticationProvider {
   validateUser(details: UserDetails);
   createUser(details: UserDetails);
