@@ -9,8 +9,12 @@ generator client {
 
 // MODELS
 model User {
-  uuid     String @id @default(cuid())
-  username String @unique
+  uuid          String    @id @default(cuid())
+  firstName     String?
+  lastName      String?
+  username      String    @unique
+  email         String    @unique
+  emailVerified DateTime?
 
   // Plots
   plots Plot[]
