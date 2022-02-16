@@ -12,4 +12,7 @@ export class Harvest extends BaseModel {
 
   @Field(() => Float, { nullable: true })
   harvestWeight?: number;
+
+  @Field(() => Date, { nullable: true })
+  harvestedOn?: Date;
 }

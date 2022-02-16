@@ -1,4 +1,6 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Harvest } from 'modules/harvests/models/harvest.model';
+import { Plot } from 'modules/plots/models/plot.model';
 import { BaseModel } from '../../graphql/models/base.model';
 
 export enum PlantType {
@@ -44,6 +46,12 @@ export class Plant extends BaseModel {
 
   @Field(() => String, { nullable: true })
   image?: string;
+
+  @Field(() => Plot, { nullable: true })
+  plot?: Plot;
+
+  @Field(() => [Harvest], { nullable: true })
+  harvests?: Harvest[];
 
   @Field(() => Date, { nullable: true })
   plantedSeedsOn?: Date;

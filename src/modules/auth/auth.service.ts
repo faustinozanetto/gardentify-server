@@ -34,8 +34,6 @@ export class AuthService implements AuthenticationProvider {
         refreshToken: details.refreshToken,
         firstName: '',
         lastName: '',
-        email: '',
-        password: '',
       },
     });
   }

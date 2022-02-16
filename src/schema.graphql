@@ -1,0 +1,228 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""User auth provider service"""
+enum AuthProvider {
+  DEFAULT
+  DISCORD
+  GITHUB
+}
+
+input CreateHarvestInput {
+  amountHarvested: Int!
+  harvestWeight: Float!
+  plantUuid: String!
+}
+
+input CreatePlantInput {
+  image: String
+  plantedSeedsOn: DateTime
+  plotUuid: String!
+  scientificName: String!
+  seedsSproutedOn: DateTime
+  type: PlantType!
+  variety: String!
+}
+
+input CreatePlotInput {
+  dirtDepth: Float!
+  sizeX: Float!
+  sizeY: Float!
+  userUuid: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type DeleteObjectResponse {
+  errors: [ErrorResponse!]
+  success: Boolean
+}
+
+type ErrorResponse {
+  field: String!
+  message: String!
+}
+
+input FindHarvestInput {
+  uuid: String
+}
+
+input FindPlantInput {
+  image: String
+  plantedSeedsOn: DateTime
+  plotUuid: String
+  scientificName: String
+  seedsSproutedOn: DateTime
+  type: PlantType
+  uuid: String
+  variety: String
+}
+
+input FindUserInput {
+  uuid: String!
+}
+
+type Harvest {
+  amountHarvested: Int
+  createdAt: DateTime
+  harvestWeight: Float
+  harvestedOn: DateTime
+  plant: Plant
+  updatedAt: DateTime
+  uuid: String
+}
+
+type HarvestResponse {
+  errors: [ErrorResponse!]
+  harvest: Harvest
+}
+
+type Mutation {
+  createPlant(input: CreatePlantInput!): PlantResponse!
+  createPlantHarvest(input: CreateHarvestInput!): HarvestResponse!
+  createPlot(input: CreatePlotInput!): PlotResponse!
+  deleteHarvest(input: FindHarvestInput!): DeleteObjectResponse!
+  deletePlant(input: FindPlantInput!): DeleteObjectResponse!
+  deletePlot(uuid: String!): DeleteObjectResponse!
+}
+
+type Plant {
+  createdAt: DateTime
+  harvests: [Harvest!]
+  image: String
+  plantedSeedsOn: DateTime
+  plot: Plot
+  scientificName: String
+  seedsSproutedOn: DateTime
+  type: PlantType
+  updatedAt: DateTime
+  uuid: String
+  variety: String
+}
+
+type PlantResponse {
+  errors: [ErrorResponse!]
+  plant: Plant
+}
+
+"""Used for declaring the type of plant."""
+enum PlantType {
+  BEAN
+  BEET
+  BROCCOLI
+  CABBAGE
+  CARROT
+  CELERY
+  CORN
+  CUCUMBER
+  EGGPLANT
+  GARLIC
+  GINGER
+  GREEN_BEAN
+  KALE
+  LETTUCE
+  MUSTARD
+  NONE
+  ONION
+  PEA
+  PEPPER
+  POTATO
+  TOMATO
+}
+
+type PlantsEdge {
+  cursor: DateTime
+  node: Plant
+}
+
+type PlantsPageInfo {
+  endCursor: DateTime
+  hasMore: Boolean
+  startCursor: DateTime
+}
+
+type PlantsResponse {
+  count: Int
+  edges: [PlantsEdge!]
+  errors: [ErrorResponse!]
+  pageInfo: PlantsPageInfo
+}
+
+type Plot {
+  createdAt: DateTime
+  dirtDepth: Float
+  plants: [Plant!]
+  sizeX: Float
+  sizeY: String
+  updatedAt: DateTime
+  user: User
+  uuid: String
+}
+
+input PlotPlantsInput {
+  plotUuid: String!
+  skip: Int!
+  take: Int!
+  where: FindPlantInput
+}
+
+type PlotResponse {
+  errors: [ErrorResponse!]
+  plot: Plot
+}
+
+type PlotsEdge {
+  cursor: DateTime
+  node: Plot
+}
+
+type PlotsPageInfo {
+  endCursor: DateTime
+  hasMore: Boolean
+  startCursor: DateTime
+}
+
+type PlotsResponse {
+  count: Int
+  edges: [PlotsEdge!]
+  errors: [ErrorResponse!]
+  pageInfo: PlotsPageInfo
+}
+
+type Query {
+  harvest(input: FindHarvestInput!): HarvestResponse!
+  me: UserResponse!
+  plantByUuid(uuid: String!): PlantResponse!
+  plotByUuid(uuid: String!): PlotResponse!
+  plotPlants(input: PlotPlantsInput!): PlantsResponse!
+  user(input: FindUserInput!): UserResponse!
+  userPlots(input: UserPlotsInput!): PlotsResponse!
+}
+
+type User {
+  authProvider: AuthProvider
+  avatar: String
+  createdAt: DateTime
+  firstName: String
+  lastName: String
+  oauthId: String
+  plots: [Plot!]
+  updatedAt: DateTime
+  username: String
+  uuid: String
+}
+
+input UserPlotsInput {
+  skip: Int!
+  take: Int!
+  where: FindUserInput
+}
+
+type UserResponse {
+  errors: [ErrorResponse!]
+  user: User
+}

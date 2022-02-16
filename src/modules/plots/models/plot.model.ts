@@ -18,5 +18,5 @@ export class Plot extends BaseModel {
   plants?: Plant[];
 
   @Field(() => User, { nullable: true })
-  plotOwner?: User;
+  user?: User;
 }

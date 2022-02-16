@@ -15,21 +15,19 @@ enum AuthProvider {
 
 // MODELS
 model User {
-  uuid      String  @id @default(cuid())
-  oauthId   String  @unique
-  firstName String?
-  lastName  String?
-  avatar    String
-  username  String  @unique
-  email     String  @unique
-  password  String
-
-  accessToken  String
-  refreshToken String
+  uuid         String       @id @default(cuid())
+  oauthId      String       @unique
+  username     String       @unique
+  firstName    String?
+  lastName     String?
+  avatar       String
   authProvider AuthProvider @default(DEFAULT)
 
   // Plots
   plots Plot[]
+
+  accessToken  String
+  refreshToken String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -99,9 +97,10 @@ model Plant {
 // Plant harvest model.
 model Harvest {
   // Harvest data
-  uuid            String @id @default(cuid())
-  amountHarvested Int    @default(0)
-  harvestWeight   Float  @default(0)
+  uuid            String   @id @default(cuid())
+  amountHarvested Int      @default(0)
+  harvestWeight   Float    @default(0)
+  harvestedOn     DateTime @default(now())
 
   // Plant relation.
   plant     Plant?  @relation(fields: [plantUuid], references: [uuid])

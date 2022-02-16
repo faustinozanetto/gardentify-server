@@ -1,4 +1,5 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Plot } from 'modules/plots/models/plot.model';
 import { BaseModel } from '../../graphql/models/base.model';
 
 export enum AuthProvider {
@@ -15,16 +16,10 @@ registerEnumType(AuthProvider, {
 @ObjectType({ isAbstract: true })
 export class User extends BaseModel {
   @Field(() => String, { nullable: true })
-  uuid: string;
-
-  @Field(() => String, { nullable: true })
   oauthId?: string;
 
   @Field(() => String, { nullable: true })
   username: string;
-
-  @Field(() => String, { nullable: true })
-  email: string;
 
   @Field(() => String, { nullable: true })
   firstName: string;
@@ -34,4 +29,10 @@ export class User extends BaseModel {
 
   @Field(() => AuthProvider, { nullable: true })
   authProvider?: AuthProvider;
+
+  @Field(() => String, { nullable: true })
+  avatar?: string;
+
+  @Field(() => [Plot], { nullable: true })
+  plots?: Plot[];
 }

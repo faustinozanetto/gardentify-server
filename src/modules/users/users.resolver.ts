@@ -10,10 +10,7 @@ import { UsersService } from './users.service';
 
 @Resolver(() => User)
 export class UsersResolver {
-  constructor(
-    private usersService: UsersService,
-    private prisma: PrismaService
-  ) {}
+  constructor(private usersService: UsersService, private prisma: PrismaService) {}
 
   @UseGuards(GraphQLAuthGuard)
   @Query(() => UserResponse)

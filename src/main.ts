@@ -7,9 +7,9 @@ import { ConfigService } from '@nestjs/config';
 import * as bodyParser from 'body-parser';
 import * as passport from 'passport';
 import * as session from 'express-session';
-import { CorsConfig, NestConfig } from './app/common/config/config.interface';
-import { __ORIGIN__ } from './app/utils/constants';
-import { AppModule } from './app/app.module';
+import { CorsConfig, NestConfig } from './common/config/config.interface';
+import { __ORIGIN__ } from './utils/constants';
+import { AppModule } from './app.module';
 
 const bootstrap = async () => {
   /*==================Initialization================*/
@@ -55,7 +55,7 @@ const bootstrap = async () => {
       cookie: {
         maxAge: 24 * 60 * 60 * 365 * 1000,
       },
-    })
+    }),
   );
 
   /*========= MIDDLEAWARES =========*/
