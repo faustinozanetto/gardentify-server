@@ -1,0 +1,112 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum AuthProvider {
+  DEFAULT
+  DISCORD
+  GITHUB
+}
+
+// MODELS
+model User {
+  uuid      String  @id @default(cuid())
+  oauthId   String  @unique
+  firstName String?
+  lastName  String?
+  avatar    String
+  username  String  @unique
+  email     String  @unique
+  password  String
+
+  accessToken  String
+  refreshToken String
+  authProvider AuthProvider @default(DEFAULT)
+
+  // Plots
+  plots Plot[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Plot {
+  // Plot characteristics.
+  uuid      String  @id @default(cuid())
+  sizeX     Float   @default(0)
+  sizeY     Float   @default(0)
+  dirtDepth Float   @default(0)
+  // Plants
+  plants    Plant[]
+
+  // User relation
+  user     User?   @relation(fields: [userUuid], references: [uuid])
+  userUuid String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+}
+
+enum PlantType {
+  NONE
+  TOMATO
+  POTATO
+  CARROT
+  ONION
+  CUCUMBER
+  PEPPER
+  PEA
+  BROCCOLI
+  CABBAGE
+  CORN
+  BEAN
+  BEET
+  CELERY
+  EGGPLANT
+  GARLIC
+  GINGER
+  GREEN_BEAN
+  KALE
+  LETTUCE
+  MUSTARD
+}
+
+model Plant {
+  // Plant caracteristics
+  uuid            String    @id @default(cuid())
+  scientificName  String
+  variety         String
+  type            PlantType
+  image           String?
+  plantedSeedsOn  DateTime?
+  seedsSproutedOn DateTime?
+  // Plant harvests.
+  harvests        Harvest[]
+  // Plot relation.
+  plot            Plot?     @relation(fields: [plotUuid], references: [uuid])
+  plotUuid        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Plant harvest model.
+model Harvest {
+  // Harvest data
+  uuid            String @id @default(cuid())
+  amountHarvested Int    @default(0)
+  harvestWeight   Float  @default(0)
+
+  // Plant relation.
+  plant     Plant?  @relation(fields: [plantUuid], references: [uuid])
+  plantUuid String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
