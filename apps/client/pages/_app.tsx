@@ -1,18 +1,12 @@
 import { AppProps } from 'next/app';
-import Head from 'next/head';
-import './styles.css';
+import { ChakraProvider } from '@chakra-ui/react';
 
-function CustomApp({ Component, pageProps }: AppProps) {
+const GardentifyApp = ({ Component, pageProps }: AppProps) => {
   return (
-    <>
-      <Head>
-        <title>Welcome to client!</title>
-      </Head>
-      <main className="app">
-        <Component {...pageProps} />
-      </main>
-    </>
+    <ChakraProvider>
+      <Component />
+    </ChakraProvider>
   );
-}
+};
 
-export default CustomApp;
+export default GardentifyApp;
