@@ -10,6 +10,7 @@ import { UsersModule } from './modules/users/users.module';
 import { PlantsModule } from './modules/plants/plants.module';
 import { PlotsModule } from './modules/plots/plots.module';
 import { HarvestsModule } from './modules/harvests/harvests.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { HarvestsModule } from './modules/harvests/harvests.module';
       useClass: GqlConfigService,
     }),
 
+    AuthModule,
     UsersModule,
     PlantsModule,
     PlotsModule,

@@ -7,14 +7,25 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum AuthProvider {
+  DEFAULT
+  DISCORD
+  GITHUB
+}
+
 // MODELS
 model User {
-  uuid          String    @id @default(cuid())
-  firstName     String?
-  lastName      String?
-  username      String    @unique
-  email         String    @unique
-  emailVerified DateTime?
+  uuid      String  @id @default(cuid())
+  oauthId   String  @unique
+  firstName String?
+  lastName  String?
+  username  String  @unique
+  email     String  @unique
+  password  String
+
+  accessToken  String
+  refreshToken String
+  authProvider AuthProvider @default(DEFAULT)
 
   // Plots
   plots Plot[]
