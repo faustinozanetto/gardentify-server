@@ -131,6 +131,24 @@ type HarvestResponse {
   harvest: Harvest
 }
 
+type HarvestsEdge {
+  cursor: DateTime
+  node: Harvest
+}
+
+type HarvestsPageInfo {
+  endCursor: DateTime
+  hasMore: Boolean
+  startCursor: DateTime
+}
+
+type HarvestsResponse {
+  count: Int
+  edges: [HarvestsEdge!]
+  errors: [ErrorResponse!]
+  pageInfo: HarvestsPageInfo
+}
+
 type Mutation {
   addDiseaseToPlant(disease: FindDiseaseInput!, plant: FindPlantInput!): DiseaseResponse!
   createDisease(input: DiseaseCreateInput!): DiseaseResponse!
@@ -139,8 +157,8 @@ type Mutation {
   createPlot(input: CreatePlotInput!): PlotResponse!
   deleteDisease(input: FindDiseaseInput!): DiseaseResponse!
   deleteDiseaseFromPlant(diseaseUuid: String!, plantUuid: String!): DeleteObjectResponse!
-  deleteHarvest(input: FindHarvestInput!): DeleteObjectResponse!
   deletePlant(input: FindPlantInput!): DeleteObjectResponse!
+  deletePlantHarvest(input: FindHarvestInput!): DeleteObjectResponse!
   deletePlot(uuid: String!): DeleteObjectResponse!
 }
 
@@ -161,6 +179,14 @@ type Plant {
 input PlantDiseasesInput {
   skip: Int!
   take: Int!
+  where: FindPlantInput
+}
+
+input PlantHarvestsInput {
+  skip: Int!
+  take: Int!
+
+  """Input to select the plant"""
   where: FindPlantInput
 }
 
@@ -259,6 +285,7 @@ type Query {
   me: UserResponse!
   plantByUuid(uuid: String!): PlantResponse!
   plantDiseases(input: PlantDiseasesInput!): DiseasesResponse!
+  plantHarvests(input: PlantHarvestsInput!): HarvestsResponse!
   plotByUuid(uuid: String!): PlotResponse!
   plotPlants(input: PlotPlantsInput!): PlantsResponse!
   user(input: FindUserInput!): UserResponse!
