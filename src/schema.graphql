@@ -112,6 +112,12 @@ input FindPlantInput {
   variety: String
 }
 
+input FindPlantsInput {
+  skip: Int!
+  take: Int!
+  where: FindPlantInput
+}
+
 input FindUserInput {
   uuid: String!
 }
@@ -282,6 +288,7 @@ type PlotsResponse {
 type Query {
   findDiseases(input: DiseasesInput!): DiseasesResponse!
   findHarvest(input: FindHarvestInput!): HarvestResponse!
+  findPlants(input: FindPlantsInput!): PlantsResponse!
   me: UserResponse!
   plantByUuid(uuid: String!): PlantResponse!
   plantDiseases(input: PlantDiseasesInput!): DiseasesResponse!

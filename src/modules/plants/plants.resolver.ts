@@ -1,10 +1,12 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response';
 import { CreatePlantInput } from './dto/createPlant.input';
+import { FindPlantsInput } from './dto/find-plants.input';
 import { FindPlantInput } from './dto/findPlant.input';
 import { Plant } from './models/plant.model';
 import { PlantsService } from './plants.service';
 import { PlantResponse } from './responses/plant.response';
+import { PlantsResponse } from './responses/plants.response';
 
 @Resolver(() => Plant)
 export class PlantsResolver {
@@ -23,5 +25,10 @@ export class PlantsResolver {
   @Mutation(() => DeleteObjectResponse)
   async deletePlant(@Args('input') input: FindPlantInput): Promise<DeleteObjectResponse> {
     return await this.plantsService.deletePlant(input);
+  }
+
+  @Query(() => PlantsResponse)
+  async findPlants(@Args('input') input: FindPlantsInput): Promise<PlantsResponse> {
+    return await this.plantsService.findPlants(input);
   }
 }
