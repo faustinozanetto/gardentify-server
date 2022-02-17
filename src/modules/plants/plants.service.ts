@@ -50,7 +50,6 @@ export class PlantsService {
         plantedSeedsOn: input.plantedSeedsOn,
         seedsSproutedOn: input.seedsSproutedOn,
         type: parsePlantType(input.type),
-        plot: { connect: { uuid: input.plotUuid } },
       },
     });
 

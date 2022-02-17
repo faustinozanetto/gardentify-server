@@ -4,9 +4,6 @@ import { PlantType } from '../models/plant.model';
 @InputType()
 export class CreatePlantInput {
   @Field(() => String, { nullable: false })
-  plotUuid: string;
-
-  @Field(() => String, { nullable: false })
   scientificName: string;
 
   @Field(() => String, { nullable: false })

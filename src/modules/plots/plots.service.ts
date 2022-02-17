@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { FindPlantInput } from 'modules/plants/dto/findPlant.input';
 import { PrismaService } from 'nestjs-prisma';
 import { parsePlantType } from '../../utils/plantUtils';
 import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response';
 import { PlantsEdge, PlantsResponse } from '../plants/responses/plants.response';
 import { CreatePlotInput } from './dto/createPlot.input';
+import { FindPlotInput } from './dto/find-plot.inputs';
 import { PlotPlantsInput } from './dto/plotPlants.input';
 import { UserPlotsInput } from './dto/userPlots.input';
+import { PlotPlantResponse } from './responses/plot-plant.response';
 import { PlotResponse } from './responses/plot.response';
 import { PlotsEdge, PlotsResponse } from './responses/plots.response';
 
@@ -13,12 +16,10 @@ import { PlotsEdge, PlotsResponse } from './responses/plots.response';
 export class PlotsService {
   constructor(private prisma: PrismaService) {}
 
-  async plotByUuid(uuid: string): Promise<PlotResponse> {
+  async plotByUuid(input: FindPlotInput): Promise<PlotResponse> {
     // Serach for plant.
     const foundPlot = await this.prisma.plot.findUnique({
-      where: {
-        uuid: uuid,
-      },
+      where: { ...input },
     });
 
     // Plot not found.
@@ -89,6 +90,63 @@ export class PlotsService {
         success: false,
       };
     }
+  }
+
+  async addPlantToPlot(plotUuid: string, plantUuid: string): Promise<PlotPlantResponse> {
+    const updatedPlant = await this.prisma.plant.update({
+      where: {
+        uuid: plantUuid,
+      },
+      data: {
+        plot: { connect: { uuid: plotUuid } },
+      },
+      include: { plot: true },
+    });
+
+    // Error occurred
+    if (!updatedPlant) {
+      return {
+        errors: [
+          {
+            field: 'plantUuid',
+            message: 'Failed to add plant to plot',
+          },
+        ],
+      };
+    }
+
+    // Plant added to plot
+    return {
+      plant: { ...updatedPlant, type: parsePlantType(updatedPlant.type) },
+      plot: updatedPlant.plot,
+    };
+  }
+
+  async removePlantFromPlot(plantUuid: string): Promise<DeleteObjectResponse> {
+    const updatedPlant = await this.prisma.plant.update({
+      where: { uuid: plantUuid },
+      data: {
+        plot: { disconnect: true },
+      },
+    });
+
+    // Error occurred
+    if (!updatedPlant) {
+      return {
+        errors: [
+          {
+            field: 'plantUuid',
+            message: 'Failed to add plant to plot',
+          },
+        ],
+        success: false,
+      };
+    }
+
+    // Plant removed from plot
+    return {
+      success: true,
+    };
   }
 
   async userPlots(input: UserPlotsInput): Promise<PlotsResponse> {
