@@ -51,6 +51,7 @@ const bootstrap = async () => {
   app.use(
     session({
       secret: 'secret',
+      name: 'session',
       resave: true,
       saveUninitialized: true,
       cookie: {

@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Context, Query, Resolver } from '@nestjs/graphql';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'nestjs-prisma';
 import { GardentifyContext } from '../../utils/types';
 import { GraphQLAuthGuard } from '../auth/auth-guards';
@@ -16,6 +16,12 @@ export class UsersResolver {
   @Query(() => UserResponse)
   async me(@Context() context: GardentifyContext): Promise<UserResponse> {
     return await this.usersService.me(context);
+  }
+
+  @UseGuards(GraphQLAuthGuard)
+  @Mutation(() => Boolean)
+  async logout(@Context() context: GardentifyContext): Promise<boolean> {
+    return await this.usersService.logout(context);
   }
 
   @Query(() => UserResponse)

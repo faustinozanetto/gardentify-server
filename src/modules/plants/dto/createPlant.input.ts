@@ -4,10 +4,16 @@ import { PlantType } from '../models/plant.model';
 @InputType()
 export class CreatePlantInput {
   @Field(() => String, { nullable: false })
+  name: string;
+
+  @Field(() => String, { nullable: false })
   scientificName: string;
 
   @Field(() => String, { nullable: false })
   variety: string;
+
+  @Field(() => String, { nullable: false })
+  description: string;
 
   @Field(() => PlantType, { nullable: false })
   type: PlantType;

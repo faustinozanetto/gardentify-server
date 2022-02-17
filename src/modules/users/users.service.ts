@@ -34,11 +34,20 @@ export class UsersService {
     return { user: parsedUser };
   }
 
+  async logout(context: GardentifyContext): Promise<boolean> {
+    if (!context.req) {
+      return false;
+    }
+    // @ts-ignore
+    context.req.logOut();
+    return true;
+  }
+
   async user(input: FindUserInput): Promise<UserResponse> {
     // Search for user.
     const foundUser = await this.prisma.user.findUnique({
       where: {
-        uuid: input.uuid,
+        ...input,
       },
     });
     // User was not found.

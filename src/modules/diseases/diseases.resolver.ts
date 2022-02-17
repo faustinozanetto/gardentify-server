@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { DeleteObjectResponse } from 'modules/graphql/responses/deleteObject.response';
-import { FindPlantInput } from 'modules/plants/dto/findPlant.input';
+import { FindPlantInput } from 'modules/plants/dto/find-plant.input';
 import { DiseasesService } from './diseases.service';
 import { DiseaseCreateInput } from './dto/disease-create.input';
 import { DiseasesInput } from './dto/diseases.input';

@@ -1,5 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import { FindPlantInput } from 'modules/plants/dto/findPlant.input';
+import { FindPlantInput } from 'modules/plants/dto/find-plant.input';
 
 @InputType()
 export class PlantDiseasesInput {

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FindPlantInput } from 'modules/plants/dto/findPlant.input';
+import { FindPlantInput } from 'modules/plants/dto/find-plant.input';
 import { PrismaService } from 'nestjs-prisma';
 import { parsePlantType } from '../../utils/plantUtils';
 import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response';

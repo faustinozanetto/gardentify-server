@@ -4,7 +4,7 @@ import { parsePlantType } from '../../utils/plantUtils';
 import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response';
 import { CreatePlantInput } from './dto/createPlant.input';
 import { FindPlantsInput } from './dto/find-plants.input';
-import { FindPlantInput } from './dto/findPlant.input';
+import { FindPlantInput } from './dto/find-plant.input';
 import { PlantResponse } from './responses/plant.response';
 import { PlantsEdge, PlantsResponse } from './responses/plants.response';
 
@@ -12,11 +12,11 @@ import { PlantsEdge, PlantsResponse } from './responses/plants.response';
 export class PlantsService {
   constructor(private prisma: PrismaService) {}
 
-  async plantByUuid(uuid: string): Promise<PlantResponse> {
+  async plant(input: FindPlantInput): Promise<PlantResponse> {
     // Serach for plant.
     const foundPlant = await this.prisma.plant.findUnique({
       where: {
-        uuid: uuid,
+        ...input,
       },
     });
 
@@ -44,11 +44,7 @@ export class PlantsService {
   async createPlant(input: CreatePlantInput): Promise<PlantResponse> {
     const createdPlant = await this.prisma.plant.create({
       data: {
-        scientificName: input.scientificName,
-        variety: input.variety,
-        image: input.image,
-        plantedSeedsOn: input.plantedSeedsOn,
-        seedsSproutedOn: input.seedsSproutedOn,
+        ...input,
         type: parsePlantType(input.type),
       },
     });

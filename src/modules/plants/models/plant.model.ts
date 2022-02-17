@@ -39,7 +39,13 @@ export class Plant extends BaseModel {
   scientificName?: string;
 
   @Field(() => String, { nullable: true })
+  name?: string;
+
+  @Field(() => String, { nullable: true })
   variety?: string;
+
+  @Field(() => String, { nullable: true })
+  description?: string;
 
   @Field(() => PlantType, { nullable: true })
   type?: PlantType;

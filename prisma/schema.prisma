@@ -86,10 +86,12 @@ enum PlantType {
 model Plant {
   // Plant caracteristics
   uuid            String             @id @default(cuid())
+  name            String
   scientificName  String
   variety         String
   type            PlantType
   image           String?
+  description     String             @default("")
   plantedSeedsOn  DateTime?
   seedsSproutedOn DateTime?
   // Plant harvests.

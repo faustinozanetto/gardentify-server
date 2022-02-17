@@ -2,6 +2,9 @@ import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class FindUserInput {
-  @Field({ nullable: false })
-  uuid: string | undefined;
+  @Field(() => String, { nullable: true })
+  uuid?: string;
+
+  @Field(() => String, { nullable: true })
+  username?: string;
 }

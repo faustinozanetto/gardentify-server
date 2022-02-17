@@ -16,7 +16,9 @@ input CreateHarvestInput {
 }
 
 input CreatePlantInput {
+  description: String!
   image: String
+  name: String!
   plantedSeedsOn: DateTime
   scientificName: String!
   seedsSproutedOn: DateTime
@@ -125,7 +127,8 @@ input FindPlotInput {
 }
 
 input FindUserInput {
-  uuid: String!
+  username: String
+  uuid: String
 }
 
 type Harvest {
@@ -173,6 +176,7 @@ type Mutation {
   deletePlant(input: FindPlantInput!): DeleteObjectResponse!
   deletePlantHarvest(input: FindHarvestInput!): DeleteObjectResponse!
   deletePlot(uuid: String!): DeleteObjectResponse!
+  logout: Boolean!
 
   """Removes the plant from the current plot if assigned"""
   removePlantFromPlot(plantUuid: String!): DeleteObjectResponse!
@@ -180,8 +184,10 @@ type Mutation {
 
 type Plant {
   createdAt: DateTime
+  description: String
   harvests: [Harvest!]
   image: String
+  name: String
   plantedSeedsOn: DateTime
   plot: Plot
   scientificName: String
@@ -307,7 +313,7 @@ type Query {
   findPlants(input: FindPlantsInput!): PlantsResponse!
   findPlot(input: FindPlotInput!): PlotResponse!
   me: UserResponse!
-  plantByUuid(uuid: String!): PlantResponse!
+  plant(input: FindPlantInput!): PlantResponse!
   plantDiseases(input: PlantDiseasesInput!): DiseasesResponse!
   plantHarvests(input: PlantHarvestsInput!): HarvestsResponse!
   plotPlants(input: PlotPlantsInput!): PlantsResponse!

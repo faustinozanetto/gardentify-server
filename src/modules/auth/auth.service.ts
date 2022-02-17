@@ -11,7 +11,7 @@ export class AuthService implements AuthenticationProvider {
     const user = await this.prisma.user.findUnique({
       where: { oauthId: details.oauthId ?? '' },
     });
-    console.log('details', details);
+
     if (user) {
       await this.prisma.user.update({
         where: {
