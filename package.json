@@ -23,7 +23,8 @@
     "migrate:dev": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
     "prisma:generate": "prisma generate",
-    "prisma:seed": "ts-node prisma/seed.ts"
+    "prisma:seed": "ts-node prisma/seed.ts",
+    "prisma:studio": "npx prisma studio"
   },
   "lint-staged": {
     "*.(js|jsx|json|ts|tsx|html)": [

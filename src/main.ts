@@ -46,12 +46,13 @@ const bootstrap = async () => {
   prismaService.enableShutdownHooks(app);
 
   const { httpAdapter } = app.get(HttpAdapterHost);
-  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
+  //app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
 
   app.use(
     session({
       secret: 'secret',
       resave: true,
+      saveUninitialized: true,
       cookie: {
         maxAge: 24 * 60 * 60 * 365 * 1000,
       },
