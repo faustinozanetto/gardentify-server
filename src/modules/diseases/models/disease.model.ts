@@ -14,5 +14,5 @@ export class Disease extends BaseModel {
   image?: string;
 
   @Field(() => Plant, { nullable: true })
-  plant?: Plant;
+  plant?: Date;
 }

@@ -51,6 +51,15 @@ model Plot {
 
 }
 
+model DiseasesOnPlants {
+  plant       Plant   @relation(fields: [plantUuid], references: [uuid])
+  plantUuid   String
+  disease     Disease @relation(fields: [diseaseUuid], references: [uuid])
+  diseaseUuid String
+
+  @@id([plantUuid, diseaseUuid])
+}
+
 enum PlantType {
   NONE
   TOMATO
@@ -77,7 +86,7 @@ enum PlantType {
 
 model Plant {
   // Plant caracteristics
-  uuid            String    @id @default(cuid())
+  uuid            String             @id @default(cuid())
   scientificName  String
   variety         String
   type            PlantType
@@ -87,9 +96,9 @@ model Plant {
   // Plant harvests.
   harvests        Harvest[]
   // Diseases
-  diseases        Disease[]
+  diseases        DiseasesOnPlants[]
   // Plot relation.
-  plot            Plot?     @relation(fields: [plotUuid], references: [uuid])
+  plot            Plot?              @relation(fields: [plotUuid], references: [uuid])
   plotUuid        String?
 
   createdAt DateTime @default(now())
@@ -113,12 +122,11 @@ model Harvest {
 }
 
 model Disease {
-  uuid           String  @id @default(cuid())
+  uuid           String             @id @default(cuid())
   scientificName String
   description    String
   image          String?
-  plant          Plant?  @relation(fields: [plantUuid], references: [uuid])
-  plantUuid      String?
+  plants         DiseasesOnPlants[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -52,6 +52,17 @@ type Disease {
   uuid: String
 }
 
+input DiseaseCreateInput {
+  description: String
+  image: String
+  scientificName: String
+}
+
+type DiseaseResponse {
+  disease: Disease
+  errors: [ErrorResponse!]
+}
+
 type DiseasesEdge {
   cursor: DateTime
   node: Disease
@@ -121,9 +132,12 @@ type HarvestResponse {
 }
 
 type Mutation {
+  addDiseaseToPlant(disease: FindDiseaseInput!, plant: FindPlantInput!): DiseaseResponse!
+  createDisease(input: DiseaseCreateInput!): DiseaseResponse!
   createPlant(input: CreatePlantInput!): PlantResponse!
   createPlantHarvest(input: CreateHarvestInput!): HarvestResponse!
   createPlot(input: CreatePlotInput!): PlotResponse!
+  deleteDisease(input: FindDiseaseInput!): DiseaseResponse!
   deleteHarvest(input: FindHarvestInput!): DeleteObjectResponse!
   deletePlant(input: FindPlantInput!): DeleteObjectResponse!
   deletePlot(uuid: String!): DeleteObjectResponse!
