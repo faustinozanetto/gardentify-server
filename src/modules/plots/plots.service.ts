@@ -2,10 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { parsePlantType } from '../../utils/plantUtils';
 import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response';
-import {
-  PlantsEdge,
-  PlantsResponse,
-} from '../plants/responses/plants.response';
+import { PlantsEdge, PlantsResponse } from '../plants/responses/plants.response';
 import { CreatePlotInput } from './dto/createPlot.input';
 import { PlotPlantsInput } from './dto/plotPlants.input';
 import { UserPlotsInput } from './dto/userPlots.input';
@@ -127,7 +124,7 @@ export class PlotsService {
         where: {
           createdAt: { lt: plots[plots.length - 1].createdAt },
         },
-      })
+      }),
     );
 
     // Map edges.
@@ -187,7 +184,7 @@ export class PlotsService {
         where: {
           createdAt: { lt: plants[plants.length - 1].createdAt },
         },
-      })
+      }),
     );
 
     // Map edges.

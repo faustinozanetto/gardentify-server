@@ -1,23 +1,15 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response';
+import { Args, Query, Resolver } from '@nestjs/graphql';
+import { DiseasesService } from './diseases.service';
+import { DiseasesInput } from './dto/diseases.input';
 import { Disease } from './models/disease.model';
+import { DiseasesResponse } from './responses/diseases.response';
 
 @Resolver(() => Disease)
 export class DiseasesResolver {
-  constructor(private harvestsService: HarvestsService) {}
+  constructor(private diseasesService: DiseasesService) {}
 
-  @Query(() => HarvestResponse)
-  async findHarvest(@Args('input') input: FindHarvestInput): Promise<HarvestResponse> {
-    return await this.harvestsService.findHarvest(input);
-  }
-
-  @Mutation(() => HarvestResponse)
-  async createPlantHarvest(@Args('input') input: CreateHarvestInput): Promise<HarvestResponse> {
-    return await this.harvestsService.createPlantHarvest(input);
-  }
-
-  @Mutation(() => DeleteObjectResponse)
-  async deleteHarvest(@Args('input') input: FindHarvestInput): Promise<DeleteObjectResponse> {
-    return await this.harvestsService.deleteHarvest(input);
+  @Query(() => DiseasesResponse)
+  async findDiseases(@Args('input') input: DiseasesInput): Promise<DiseasesResponse> {
+    return await this.diseasesService.findDiseases(input);
   }
 }

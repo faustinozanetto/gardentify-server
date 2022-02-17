@@ -42,9 +42,48 @@ type DeleteObjectResponse {
   success: Boolean
 }
 
+type Disease {
+  createdAt: DateTime
+  description: String
+  image: String
+  plant: Plant
+  scientificName: String
+  updatedAt: DateTime
+  uuid: String
+}
+
+type DiseasesEdge {
+  cursor: DateTime
+  node: Disease
+}
+
+input DiseasesInput {
+  skip: Int!
+  take: Int!
+  where: FindDiseaseInput
+}
+
+type DiseasesPageInfo {
+  endCursor: DateTime
+  hasMore: Boolean
+  startCursor: DateTime
+}
+
+type DiseasesResponse {
+  count: Int
+  edges: [DiseasesEdge!]
+  errors: [ErrorResponse!]
+  pageInfo: DiseasesPageInfo
+}
+
 type ErrorResponse {
   field: String!
   message: String!
+}
+
+input FindDiseaseInput {
+  scientificName: String
+  uuid: String
 }
 
 input FindHarvestInput {
@@ -194,6 +233,7 @@ type PlotsResponse {
 }
 
 type Query {
+  findDiseases(input: DiseasesInput!): DiseasesResponse!
   findHarvest(input: FindHarvestInput!): HarvestResponse!
   me: UserResponse!
   plantByUuid(uuid: String!): PlantResponse!
