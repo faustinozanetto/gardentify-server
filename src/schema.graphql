@@ -138,6 +138,7 @@ type Mutation {
   createPlantHarvest(input: CreateHarvestInput!): HarvestResponse!
   createPlot(input: CreatePlotInput!): PlotResponse!
   deleteDisease(input: FindDiseaseInput!): DiseaseResponse!
+  deleteDiseaseFromPlant(diseaseUuid: String!, plantUuid: String!): DeleteObjectResponse!
   deleteHarvest(input: FindHarvestInput!): DeleteObjectResponse!
   deletePlant(input: FindPlantInput!): DeleteObjectResponse!
   deletePlot(uuid: String!): DeleteObjectResponse!
@@ -155,6 +156,12 @@ type Plant {
   updatedAt: DateTime
   uuid: String
   variety: String
+}
+
+input PlantDiseasesInput {
+  skip: Int!
+  take: Int!
+  where: FindPlantInput
 }
 
 type PlantResponse {
@@ -251,6 +258,7 @@ type Query {
   findHarvest(input: FindHarvestInput!): HarvestResponse!
   me: UserResponse!
   plantByUuid(uuid: String!): PlantResponse!
+  plantDiseases(input: PlantDiseasesInput!): DiseasesResponse!
   plotByUuid(uuid: String!): PlotResponse!
   plotPlants(input: PlotPlantsInput!): PlantsResponse!
   user(input: FindUserInput!): UserResponse!

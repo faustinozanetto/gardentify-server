@@ -5,6 +5,7 @@ import { PrismaService } from 'nestjs-prisma';
 import { DiseaseCreateInput } from './dto/disease-create.input';
 import { DiseasesInput } from './dto/diseases.input';
 import { FindDiseaseInput } from './dto/find-disease.input';
+import { PlantDiseasesInput } from './dto/plant-diseases.input';
 import { DiseaseResponse } from './responses/disease.response';
 import { DiseasesEdge, DiseasesResponse } from './responses/diseases.response';
 
@@ -91,6 +92,37 @@ export class DiseasesService {
     }
   }
 
+  async deleteDiseaseFromPlant(
+    diseaseUuid: string,
+    plantUuid: string,
+  ): Promise<DeleteObjectResponse> {
+    try {
+      await this.prisma.diseasesOnPlants.delete({
+        where: {
+          plantUuid_diseaseUuid: {
+            diseaseUuid: diseaseUuid,
+            plantUuid: plantUuid,
+          },
+        },
+      });
+      // Completed
+      return {
+        success: true,
+      };
+    } catch (error: unknown) {
+      // Failed to delete.
+      return {
+        errors: [
+          {
+            field: 'disease',
+            message: 'Could not delete disease from plant',
+          },
+        ],
+        success: false,
+      };
+    }
+  }
+
   async findDiseases(input: DiseasesInput): Promise<DiseasesResponse> {
     // Fetch diseases
     const diseases = await this.prisma.disease.findMany({
@@ -140,6 +172,70 @@ export class DiseasesService {
 
     return {
       count: diseases.length,
+      edges: mappedDiseases,
+      pageInfo: {
+        hasMore,
+        startCursor: edges[0].cursor,
+        endCursor: edges[edges.length - 1].cursor,
+      },
+    };
+  }
+
+  async plantDiseases(input: PlantDiseasesInput): Promise<DiseasesResponse> {
+    // Get diseases.
+    const plantDiseases = await this.prisma.diseasesOnPlants.findMany({
+      where: {
+        plant: { ...input.where },
+      },
+      take: input.take,
+      skip: input.skip,
+      orderBy: { disease: { createdAt: 'desc' } },
+      include: {
+        disease: true,
+        plant: true,
+      },
+    });
+
+    // Error handling
+    if (!plantDiseases.length) {
+      return {
+        count: 0,
+        edges: [],
+        pageInfo: {
+          hasMore: false,
+          startCursor: null,
+          endCursor: null,
+        },
+      };
+    }
+
+    // Check if there are more pages
+    const hasMore = Boolean(
+      await this.prisma.diseasesOnPlants.count({
+        take: 1,
+        where: {
+          disease: { createdAt: { lt: plantDiseases[plantDiseases.length - 1].disease.createdAt } },
+        },
+      }),
+    );
+
+    // Map edges.
+    const edges = plantDiseases.map((e) => ({
+      cursor: e.disease.createdAt,
+      e,
+    }));
+
+    const mappedDiseases: DiseasesEdge[] = edges.map((e) => {
+      return {
+        cursor: e.cursor,
+        node: {
+          ...e.e.disease,
+        },
+      };
+    });
+
+    return {
+      count: plantDiseases.length,
       edges: mappedDiseases,
       pageInfo: {
         hasMore,
