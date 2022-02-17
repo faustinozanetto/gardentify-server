@@ -194,7 +194,7 @@ type PlotsResponse {
 }
 
 type Query {
-  harvest(input: FindHarvestInput!): HarvestResponse!
+  findHarvest(input: FindHarvestInput!): HarvestResponse!
   me: UserResponse!
   plantByUuid(uuid: String!): PlantResponse!
   plotByUuid(uuid: String!): PlotResponse!

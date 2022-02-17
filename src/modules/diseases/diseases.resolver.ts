@@ -1,13 +1,9 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response';
-import { CreateHarvestInput } from './dto/createHarvest.input';
-import { FindHarvestInput } from './dto/findHarvest.input';
-import { HarvestsService } from './harvests.service';
-import { Harvest } from './models/harvest.model';
-import { HarvestResponse } from './responses/harvest.response';
+import { Disease } from './models/disease.model';
 
-@Resolver(() => Harvest)
-export class HarvestsResolver {
+@Resolver(() => Disease)
+export class DiseasesResolver {
   constructor(private harvestsService: HarvestsService) {}
 
   @Query(() => HarvestResponse)

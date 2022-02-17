@@ -6,7 +6,7 @@ import { FindHarvestInput } from './dto/findHarvest.input';
 import { HarvestResponse } from './responses/harvest.response';
 
 @Injectable()
-export class HarvestsService {
+export class DiseasesService {
   constructor(private prisma: PrismaService) {}
 
   async findHarvest(input: FindHarvestInput): Promise<HarvestResponse> {
