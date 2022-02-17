@@ -9,12 +9,13 @@ export class AuthService implements AuthenticationProvider {
 
   async validateUser(details: UserDetails) {
     const user = await this.prisma.user.findUnique({
-      where: { oauthId: details.oauthId },
+      where: { oauthId: details.oauthId ?? '' },
     });
+    console.log('details', details);
     if (user) {
       await this.prisma.user.update({
         where: {
-          oauthId: details.oauthId,
+          oauthId: details.oauthId ?? '',
         },
         data: details,
       });
@@ -26,14 +27,7 @@ export class AuthService implements AuthenticationProvider {
   async createUser(details: UserDetails) {
     return await this.prisma.user.create({
       data: {
-        avatar: details.avatar,
-        oauthId: details.oauthId,
-        username: details.username,
-        authProvider: details.authProvider,
-        accessToken: details.accessToken,
-        refreshToken: details.refreshToken,
-        firstName: '',
-        lastName: '',
+        ...details,
       },
     });
   }

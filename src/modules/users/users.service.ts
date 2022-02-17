@@ -24,7 +24,7 @@ export class UsersService {
     const user = await this.prisma.user.findUnique({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      where: { uuid: context.req.session.passport.user.id },
+      where: { uuid: context.req.session.passport.user.uuid },
     });
 
     const parsedUser: User = {

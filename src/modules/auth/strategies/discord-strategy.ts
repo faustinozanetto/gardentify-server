@@ -9,7 +9,7 @@ import { AuthProvider } from '../../users/models/user.model';
 export class DiscordStrategy extends PassportStrategy(Strategy) {
   constructor(
     @Inject('AUTH_SERVICE')
-    private readonly authService: AuthenticationProvider
+    private readonly authService: AuthenticationProvider,
   ) {
     super({
       clientID: process.env.DISCORD_CLIENT_ID,

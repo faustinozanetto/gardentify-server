@@ -18,8 +18,7 @@ model User {
   uuid         String       @id @default(cuid())
   oauthId      String       @unique
   username     String       @unique
-  firstName    String?
-  lastName     String?
+  description  String       @default("")
   avatar       String
   authProvider AuthProvider @default(DEFAULT)
 

@@ -3,6 +3,7 @@ import { ApolloDriverConfig } from '@nestjs/apollo';
 import { Injectable } from '@nestjs/common';
 import { GqlOptionsFactory } from '@nestjs/graphql';
 import { GraphqlConfig } from '../../common/config/config.interface';
+import { __ORIGIN__ } from 'utils/constants';
 
 @Injectable()
 export class GqlConfigService implements GqlOptionsFactory {
@@ -15,6 +16,10 @@ export class GqlConfigService implements GqlOptionsFactory {
       sortSchema: graphqlConfig.sortSchema,
       buildSchemaOptions: {
         numberScalarMode: 'integer',
+      },
+      cors: {
+        origin: __ORIGIN__,
+        enabled: true,
       },
       // subscription
       installSubscriptionHandlers: true,

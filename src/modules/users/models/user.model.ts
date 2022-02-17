@@ -19,13 +19,10 @@ export class User extends BaseModel {
   oauthId?: string;
 
   @Field(() => String, { nullable: true })
-  username: string;
+  username?: string;
 
   @Field(() => String, { nullable: true })
-  firstName: string;
-
-  @Field(() => String, { nullable: true })
-  lastName: string;
+  description?: string;
 
   @Field(() => AuthProvider, { nullable: true })
   authProvider?: AuthProvider;

@@ -319,8 +319,7 @@ type User {
   authProvider: AuthProvider
   avatar: String
   createdAt: DateTime
-  firstName: String
-  lastName: String
+  description: String
   oauthId: String
   plots: [Plot!]
   updatedAt: DateTime
