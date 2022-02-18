@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { FindPlantInput } from 'modules/plants/dto/find-plant.input';
+import { FindPlantInput } from 'modules/user-plants/dto/find-plant.input';
 import { PrismaService } from 'nestjs-prisma';
 import { parsePlantType } from '../../utils/plantUtils';
 import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response';
-import { PlantsEdge, PlantsResponse } from '../plants/responses/plants.response';
+import { PlantsEdge, PlantsResponse } from '../user-plants/responses/plants.response';
 import { CreatePlotInput } from './dto/createPlot.input';
 import { FindPlotInput } from './dto/find-plot.inputs';
 import { PlotPlantsInput } from './dto/plotPlants.input';

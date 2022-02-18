@@ -328,7 +328,7 @@ type PlotsResponse {
 }
 
 type Query {
-  findDisease(input: FindDiseaseInput!): DiseasesResponse!
+  findDisease(input: FindDiseaseInput!): DiseaseResponse!
   findDiseases(input: DiseasesInput!): DiseasesResponse!
   findHarvest(input: FindHarvestInput!): HarvestResponse!
   findPlants(input: FindPlantsInput!): PlantsResponse!

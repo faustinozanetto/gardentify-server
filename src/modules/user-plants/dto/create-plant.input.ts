@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { PlantRequirementsCreateInput } from 'modules/plant-requirements/dto/plant-requirements-create.input';
-import { PlantType } from '../models/plant.model';
+import { PlantType } from '../models/user-plant.model';
 
 @InputType()
 export class CreatePlantInput {

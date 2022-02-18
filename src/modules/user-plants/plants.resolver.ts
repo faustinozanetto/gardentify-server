@@ -3,7 +3,7 @@ import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response
 import { CreatePlantInput } from './dto/create-plant.input';
 import { FindPlantsInput } from './dto/find-plants.input';
 import { FindPlantInput } from './dto/find-plant.input';
-import { Plant } from './models/plant.model';
+import { Plant } from './models/user-plant.model';
 import { PlantsService } from './plants.service';
 import { PlantResponse } from './responses/plant.response';
 import { PlantsResponse } from './responses/plants.response';

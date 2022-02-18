@@ -7,7 +7,7 @@ import { loggingMiddleware } from './common/middleware/logging.middlewere';
 import { GqlConfigService } from './modules/graphql/graphql.config.service';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './modules/users/users.module';
-import { PlantsModule } from './modules/plants/plants.module';
+import { PlantsModule } from './modules/user-plants/plants.module';
 import { PlotsModule } from './modules/plots/plots.module';
 import { HarvestsModule } from './modules/harvests/harvests.module';
 import { AuthModule } from './modules/auth/auth.module';

@@ -13,52 +13,6 @@ enum AuthProvider {
   GITHUB
 }
 
-// MODELS
-model User {
-  uuid         String       @id @default(cuid())
-  oauthId      String       @unique
-  username     String       @unique
-  description  String       @default("")
-  avatar       String
-  authProvider AuthProvider @default(DEFAULT)
-
-  // Plots
-  plots Plot[]
-
-  accessToken  String
-  refreshToken String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Plot {
-  // Plot characteristics.
-  uuid      String  @id @default(cuid())
-  sizeX     Float   @default(0)
-  sizeY     Float   @default(0)
-  dirtDepth Float   @default(0)
-  // Plants
-  plants    Plant[]
-
-  // User relation
-  user     User?   @relation(fields: [userUuid], references: [uuid])
-  userUuid String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-}
-
-model DiseasesOnPlants {
-  plant       Plant   @relation(fields: [plantUuid], references: [uuid])
-  plantUuid   String
-  disease     Disease @relation(fields: [diseaseUuid], references: [uuid])
-  diseaseUuid String
-
-  @@id([plantUuid, diseaseUuid])
-}
-
 enum PlantType {
   NONE
   TOMATO
@@ -83,26 +37,62 @@ enum PlantType {
   MUSTARD
 }
 
+// MODELS
+model User {
+  uuid         String       @id @default(cuid())
+  oauthId      String       @unique
+  username     String       @unique
+  description  String       @default("")
+  avatar       String
+  authProvider AuthProvider @default(DEFAULT)
+
+  // Plots
+  plots Plot[]
+
+  accessToken  String
+  refreshToken String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Plant {
   // Plant caracteristics
-  uuid             String             @id @default(cuid())
+  uuid             String            @id @default(cuid())
   name             String
   scientificName   String
-  description      String             @default("")
+  description      String            @default("")
   variety          String
   type             PlantType
-  requirements     PlantRequirements  @relation(fields: [requirementsUuid], references: [uuid])
+  requirements     PlantRequirements @relation(fields: [requirementsUuid], references: [uuid])
   requirementsUuid String
   image            String?
-  plantedSeedsOn   DateTime?
-  seedsSproutedOn  DateTime?
-  // Plant harvests.
-  harvests         Harvest[]
-  // Diseases
-  diseases         DiseasesOnPlants[]
+
+  // Common Diseases
+  diseases Disease[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserPlant {
+  uuid           String    @id @default(cuid())
+  name           String
+  scientificName String
+  variety        String
+  type           PlantType
+  image          String?
+
+  plantedSeedsOn  DateTime?
+  seedsSproutedOn DateTime?
+
   // Plot relation.
-  plot             Plot?              @relation(fields: [plotUuid], references: [uuid])
-  plotUuid         String?
+  plot     Plot?              @relation(fields: [plotUuid], references: [uuid])
+  plotUuid String?
+  // Plant harvests.
+  harvests Harvest[]
+  // Registered diseases.
+  diseases DiseasesOnPlants[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -114,10 +104,37 @@ model PlantRequirements {
   light       String
   water       String
   temperature String
+  // Information plant relation model.
   plant       Plant[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Plot {
+  // Plot characteristics.
+  uuid      String      @id @default(cuid())
+  sizeX     Float       @default(0)
+  sizeY     Float       @default(0)
+  dirtDepth Float       @default(0)
+  // User plants in the plot.
+  plants    UserPlant[]
+
+  // User relation
+  user     User?   @relation(fields: [userUuid], references: [uuid])
+  userUuid String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DiseasesOnPlants {
+  plant       UserPlant @relation(fields: [plantUuid], references: [uuid])
+  plantUuid   String
+  disease     Disease   @relation(fields: [diseaseUuid], references: [uuid])
+  diseaseUuid String
+
+  @@id([plantUuid, diseaseUuid])
 }
 
 // Plant harvest model.
@@ -129,7 +146,7 @@ model Harvest {
   harvestedOn     DateTime @default(now())
 
   // Plant relation.
-  plant     Plant?  @relation(fields: [plantUuid], references: [uuid])
+  plant     UserPlant? @relation(fields: [plantUuid], references: [uuid])
   plantUuid String?
 
   createdAt DateTime @default(now())
@@ -137,11 +154,17 @@ model Harvest {
 }
 
 model Disease {
-  uuid           String             @id @default(cuid())
+  uuid           String  @id @default(cuid())
   scientificName String
   description    String
   image          String?
-  plants         DiseasesOnPlants[]
+
+  // Relation used by informational plant model. One to Many.
+  plant     Plant?  @relation(fields: [plantUuid], references: [uuid])
+  plantUuid String?
+
+  // Relation used by user plant model. Many to Many.
+  userPlants DiseasesOnPlants[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response';
-import { PlantsResponse } from '../plants/responses/plants.response';
+import { PlantsResponse } from '../user-plants/responses/plants.response';
 import { CreatePlotInput } from './dto/createPlot.input';
 import { FindPlotInput } from './dto/find-plot.inputs';
 import { PlotPlantsInput } from './dto/plotPlants.input';

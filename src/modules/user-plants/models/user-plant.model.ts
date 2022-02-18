@@ -1,7 +1,6 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Disease } from 'modules/diseases/models/disease.model';
 import { Harvest } from 'modules/harvests/models/harvest.model';
-import { PlantRequirements } from 'modules/plant-requirements/models/plant-requirements.model';
 import { Plot } from 'modules/plots/models/plot.model';
 import { BaseModel } from '../../graphql/models/base.model';
 
@@ -36,24 +35,27 @@ registerEnumType(PlantType, {
 });
 
 @ObjectType({ isAbstract: true })
-export class Plant extends BaseModel {
-  @Field(() => String, { nullable: true })
-  scientificName?: string;
-
+export class UserPlant extends BaseModel {
   @Field(() => String, { nullable: true })
   name?: string;
 
   @Field(() => String, { nullable: true })
-  variety?: string;
+  scientificName?: string;
 
   @Field(() => String, { nullable: true })
-  description?: string;
+  variety?: string;
 
   @Field(() => PlantType, { nullable: true })
   type?: PlantType;
 
   @Field(() => String, { nullable: true })
   image?: string;
+
+  @Field(() => Date, { nullable: true })
+  plantedSeedsOn?: Date;
+
+  @Field(() => Date, { nullable: true })
+  seedsSproutedOn?: Date;
 
   @Field(() => Plot, { nullable: true })
   plot?: Plot;
@@ -63,13 +65,4 @@ export class Plant extends BaseModel {
 
   @Field(() => [Disease], { nullable: true })
   diseases?: Disease[];
-
-  @Field(() => PlantRequirements, { nullable: true })
-  requirements?: PlantRequirements;
-
-  @Field(() => Date, { nullable: true })
-  plantedSeedsOn?: Date;
-
-  @Field(() => Date, { nullable: true })
-  seedsSproutedOn?: Date;
 }

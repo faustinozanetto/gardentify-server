@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseModel } from 'modules/graphql/models/base.model';
-import { Plant } from 'modules/plants/models/plant.model';
+import { Plant } from 'modules/user-plants/models/user-plant.model';
 
 @ObjectType()
 export class Disease extends BaseModel {

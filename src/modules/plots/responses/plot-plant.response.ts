@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Plant } from 'modules/plants/models/plant.model';
+import { Plant } from 'modules/user-plants/models/user-plant.model';
 import { ErrorResponse } from '../../graphql/models/error.model';
 import { Plot } from '../models/plot.model';
 

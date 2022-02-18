@@ -1,5 +1,5 @@
 import { PlantType as PrismaType } from '@prisma/client';
-import { PlantType } from '../modules/plants/models/plant.model';
+import { PlantType } from '../modules/user-plants/models/user-plant.model';
 
 /**
  *

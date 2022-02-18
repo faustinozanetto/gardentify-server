@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { ErrorResponse } from '../../graphql/models/error.model';
-import { Plant } from '../models/plant.model';
+import { Plant } from '../models/user-plant.model';
 
 @ObjectType()
 export class PlantResponse {

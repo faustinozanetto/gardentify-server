@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { DeleteObjectResponse } from 'modules/graphql/responses/deleteObject.response';
-import { FindPlantInput } from 'modules/plants/dto/find-plant.input';
+import { FindPlantInput } from 'modules/user-plants/dto/find-plant.input';
 import { DiseasesService } from './diseases.service';
 import { DiseaseCreateInput } from './dto/disease-create.input';
 import { DiseasesInput } from './dto/diseases.input';
@@ -40,7 +40,7 @@ export class DiseasesResolver {
     return await this.diseasesService.deleteDiseaseFromPlant(diseaseUuid, plantUuid);
   }
 
-  @Query(() => DiseasesResponse)
+  @Query(() => DiseaseResponse)
   async findDisease(@Args('input') input: FindDiseaseInput): Promise<DiseaseResponse> {
     return await this.diseasesService.findDisease(input);
   }
