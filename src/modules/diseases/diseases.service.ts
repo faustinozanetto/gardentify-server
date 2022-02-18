@@ -123,6 +123,30 @@ export class DiseasesService {
     }
   }
 
+  async findDisease(input: FindDiseaseInput): Promise<DiseaseResponse> {
+    // Fetch disease
+    const disease = await this.prisma.disease.findUnique({
+      where: input,
+    });
+
+    // Error handling
+    if (!disease) {
+      return {
+        errors: [
+          {
+            field: 'input',
+            message: 'Could not find disease',
+          },
+        ],
+      };
+    }
+
+    // Return disease
+    return {
+      disease,
+    };
+  }
+
   async findDiseases(input: DiseasesInput): Promise<DiseasesResponse> {
     // Fetch diseases
     const diseases = await this.prisma.disease.findMany({

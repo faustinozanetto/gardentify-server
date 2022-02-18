@@ -20,6 +20,7 @@ export class PlantsService {
       },
       include: {
         requirements: true,
+        diseases: { include: { disease: true } },
       },
     });
 
@@ -35,11 +36,14 @@ export class PlantsService {
       };
     }
 
+    const mappedDiseases = foundPlant.diseases.map((d) => d.disease);
+
     // Plant found.
     return {
       plant: {
         ...foundPlant,
         type: parsePlantType(foundPlant.type),
+        diseases: mappedDiseases,
       },
     };
   }
@@ -107,6 +111,7 @@ export class PlantsService {
       orderBy: { createdAt: 'desc' },
       include: {
         requirements: true,
+        diseases: { include: { disease: true } },
       },
     });
 
@@ -140,11 +145,13 @@ export class PlantsService {
     }));
 
     const mappedPlants: PlantsEdge[] = edges.map((e) => {
+      const mappedDiseases = e.e.diseases.map((d) => d.disease);
       return {
         cursor: e.cursor,
         node: {
           ...e.e,
           type: parsePlantType(e.e.type),
+          diseases: mappedDiseases,
         },
       };
     });

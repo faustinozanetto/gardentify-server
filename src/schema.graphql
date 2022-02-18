@@ -186,6 +186,7 @@ type Mutation {
 type Plant {
   createdAt: DateTime
   description: String
+  diseases: [Disease!]
   harvests: [Harvest!]
   image: String
   name: String
@@ -327,6 +328,7 @@ type PlotsResponse {
 }
 
 type Query {
+  findDisease(input: FindDiseaseInput!): DiseasesResponse!
   findDiseases(input: DiseasesInput!): DiseasesResponse!
   findHarvest(input: FindHarvestInput!): HarvestResponse!
   findPlants(input: FindPlantsInput!): PlantsResponse!

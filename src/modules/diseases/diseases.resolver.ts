@@ -41,6 +41,11 @@ export class DiseasesResolver {
   }
 
   @Query(() => DiseasesResponse)
+  async findDisease(@Args('input') input: FindDiseaseInput): Promise<DiseaseResponse> {
+    return await this.diseasesService.findDisease(input);
+  }
+
+  @Query(() => DiseasesResponse)
   async findDiseases(@Args('input') input: DiseasesInput): Promise<DiseasesResponse> {
     return await this.diseasesService.findDiseases(input);
   }
