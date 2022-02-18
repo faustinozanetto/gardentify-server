@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { parsePlantType } from '../../utils/plantUtils';
 import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response';
-import { CreatePlantInput } from './dto/createPlant.input';
+import { CreatePlantInput } from './dto/create-plant.input';
 import { FindPlantsInput } from './dto/find-plants.input';
 import { FindPlantInput } from './dto/find-plant.input';
 import { PlantResponse } from './responses/plant.response';
@@ -17,6 +17,9 @@ export class PlantsService {
     const foundPlant = await this.prisma.plant.findUnique({
       where: {
         ...input,
+      },
+      include: {
+        requirements: true,
       },
     });
 
@@ -46,6 +49,14 @@ export class PlantsService {
       data: {
         ...input,
         type: parsePlantType(input.type),
+        requirements: {
+          create: {
+            ...input.requirements,
+          },
+        },
+      },
+      include: {
+        requirements: true,
       },
     });
 
@@ -94,6 +105,9 @@ export class PlantsService {
       skip: input.skip,
       where: { ...input.where },
       orderBy: { createdAt: 'desc' },
+      include: {
+        requirements: true,
+      },
     });
 
     // Error handling

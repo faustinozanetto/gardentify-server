@@ -85,22 +85,36 @@ enum PlantType {
 
 model Plant {
   // Plant caracteristics
-  uuid            String             @id @default(cuid())
-  name            String
-  scientificName  String
-  variety         String
-  type            PlantType
-  image           String?
-  description     String             @default("")
-  plantedSeedsOn  DateTime?
-  seedsSproutedOn DateTime?
+  uuid             String             @id @default(cuid())
+  name             String
+  scientificName   String
+  description      String             @default("")
+  variety          String
+  type             PlantType
+  requirements     PlantRequirements  @relation(fields: [requirementsUuid], references: [uuid])
+  requirementsUuid String
+  image            String?
+  plantedSeedsOn   DateTime?
+  seedsSproutedOn  DateTime?
   // Plant harvests.
-  harvests        Harvest[]
+  harvests         Harvest[]
   // Diseases
-  diseases        DiseasesOnPlants[]
+  diseases         DiseasesOnPlants[]
   // Plot relation.
-  plot            Plot?              @relation(fields: [plotUuid], references: [uuid])
-  plotUuid        String?
+  plot             Plot?              @relation(fields: [plotUuid], references: [uuid])
+  plotUuid         String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PlantRequirements {
+  uuid        String  @id @default(cuid())
+  soil        String
+  light       String
+  water       String
+  temperature String
+  plant       Plant[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

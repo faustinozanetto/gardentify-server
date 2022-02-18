@@ -1,5 +1,6 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Harvest } from 'modules/harvests/models/harvest.model';
+import { PlantRequirements } from 'modules/plant-requirements/models/plant-requirements.model';
 import { Plot } from 'modules/plots/models/plot.model';
 import { BaseModel } from '../../graphql/models/base.model';
 
@@ -58,6 +59,9 @@ export class Plant extends BaseModel {
 
   @Field(() => [Harvest], { nullable: true })
   harvests?: Harvest[];
+
+  @Field(() => PlantRequirements, { nullable: true })
+  requirements?: PlantRequirements;
 
   @Field(() => Date, { nullable: true })
   plantedSeedsOn?: Date;

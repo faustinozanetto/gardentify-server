@@ -20,6 +20,7 @@ input CreatePlantInput {
   image: String
   name: String!
   plantedSeedsOn: DateTime
+  requirements: PlantRequirementsCreateInput!
   scientificName: String!
   seedsSproutedOn: DateTime
   type: PlantType!
@@ -190,6 +191,7 @@ type Plant {
   name: String
   plantedSeedsOn: DateTime
   plot: Plot
+  requirements: PlantRequirements
   scientificName: String
   seedsSproutedOn: DateTime
   type: PlantType
@@ -210,6 +212,23 @@ input PlantHarvestsInput {
 
   """Input to select the plant"""
   where: FindPlantInput
+}
+
+type PlantRequirements {
+  createdAt: DateTime
+  light: String
+  soil: String
+  temperature: String
+  updatedAt: DateTime
+  uuid: String
+  water: String
+}
+
+input PlantRequirementsCreateInput {
+  light: String!
+  soil: String!
+  temperature: String!
+  water: String!
 }
 
 type PlantResponse {
