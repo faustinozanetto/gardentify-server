@@ -15,23 +15,21 @@ input CreateHarvestInput {
   plantUuid: String!
 }
 
-input CreatePlantInput {
-  description: String!
-  image: String
-  name: String!
-  plantedSeedsOn: DateTime
-  requirements: PlantRequirementsCreateInput!
-  scientificName: String!
-  seedsSproutedOn: DateTime
-  type: PlantType!
-  variety: String!
-}
-
 input CreatePlotInput {
   dirtDepth: Float!
   sizeX: Float!
   sizeY: Float!
   userUuid: String!
+}
+
+input CreateUserPlantInput {
+  image: String
+  name: String!
+  plantedSeedsOn: DateTime
+  scientificName: String!
+  seedsSproutedOn: DateTime
+  type: PlantType!
+  variety: String!
 }
 
 """
@@ -48,7 +46,7 @@ type Disease {
   createdAt: DateTime
   description: String
   image: String
-  plant: Plant
+  plant: UserPlant
   scientificName: String
   updatedAt: DateTime
   uuid: String
@@ -103,23 +101,6 @@ input FindHarvestInput {
   uuid: String
 }
 
-input FindPlantInput {
-  image: String
-  plantedSeedsOn: DateTime
-  plotUuid: String
-  scientificName: String
-  seedsSproutedOn: DateTime
-  type: PlantType
-  uuid: String
-  variety: String
-}
-
-input FindPlantsInput {
-  skip: Int!
-  take: Int!
-  where: FindPlantInput
-}
-
 input FindPlotInput {
   dirtDepth: Float
   sizeX: Float
@@ -132,12 +113,29 @@ input FindUserInput {
   uuid: String
 }
 
+input FindUserPlantInput {
+  image: String
+  plantedSeedsOn: DateTime
+  plotUuid: String
+  scientificName: String
+  seedsSproutedOn: DateTime
+  type: PlantType
+  uuid: String
+  variety: String
+}
+
+input FindUserPlantsInput {
+  skip: Int!
+  take: Int!
+  where: FindUserPlantInput
+}
+
 type Harvest {
   amountHarvested: Int
   createdAt: DateTime
   harvestWeight: Float
   harvestedOn: DateTime
-  plant: Plant
+  plant: UserPlant
   updatedAt: DateTime
   uuid: String
 }
@@ -166,45 +164,27 @@ type HarvestsResponse {
 }
 
 type Mutation {
-  addDiseaseToPlant(disease: FindDiseaseInput!, plant: FindPlantInput!): DiseaseResponse!
-  addPlantToPlot(plantUuid: String!, plotUuid: String!): PlotPlantResponse!
+  addDiseaseToUserPlant(disease: FindDiseaseInput!, plant: FindUserPlantInput!): DiseaseResponse!
+  addUserPlantToPlot(plantUuid: String!, plotUuid: String!): PlotPlantResponse!
   createDisease(input: DiseaseCreateInput!): DiseaseResponse!
-  createPlant(input: CreatePlantInput!): PlantResponse!
-  createPlantHarvest(input: CreateHarvestInput!): HarvestResponse!
   createPlot(input: CreatePlotInput!): PlotResponse!
+  createUserPlant(input: CreateUserPlantInput!): UserPlantResponse!
+  createUserPlantHarvest(input: CreateHarvestInput!): HarvestResponse!
   deleteDisease(input: FindDiseaseInput!): DiseaseResponse!
-  deleteDiseaseFromPlant(diseaseUuid: String!, plantUuid: String!): DeleteObjectResponse!
-  deletePlant(input: FindPlantInput!): DeleteObjectResponse!
-  deletePlantHarvest(input: FindHarvestInput!): DeleteObjectResponse!
+  deleteDiseaseFromUserPlant(diseaseUuid: String!, plantUuid: String!): DeleteObjectResponse!
   deletePlot(uuid: String!): DeleteObjectResponse!
+  deleteUserPlant(input: FindUserPlantInput!): DeleteObjectResponse!
+  deleteUserPlantHarvest(input: FindHarvestInput!): DeleteObjectResponse!
   logout: Boolean!
 
   """Removes the plant from the current plot if assigned"""
-  removePlantFromPlot(plantUuid: String!): DeleteObjectResponse!
-}
-
-type Plant {
-  createdAt: DateTime
-  description: String
-  diseases: [Disease!]
-  harvests: [Harvest!]
-  image: String
-  name: String
-  plantedSeedsOn: DateTime
-  plot: Plot
-  requirements: PlantRequirements
-  scientificName: String
-  seedsSproutedOn: DateTime
-  type: PlantType
-  updatedAt: DateTime
-  uuid: String
-  variety: String
+  removeUserPlantFromPlot(plantUuid: String!): DeleteObjectResponse!
 }
 
 input PlantDiseasesInput {
   skip: Int!
   take: Int!
-  where: FindPlantInput
+  where: FindUserPlantInput
 }
 
 input PlantHarvestsInput {
@@ -212,29 +192,7 @@ input PlantHarvestsInput {
   take: Int!
 
   """Input to select the plant"""
-  where: FindPlantInput
-}
-
-type PlantRequirements {
-  createdAt: DateTime
-  light: String
-  soil: String
-  temperature: String
-  updatedAt: DateTime
-  uuid: String
-  water: String
-}
-
-input PlantRequirementsCreateInput {
-  light: String!
-  soil: String!
-  temperature: String!
-  water: String!
-}
-
-type PlantResponse {
-  errors: [ErrorResponse!]
-  plant: Plant
+  where: FindUserPlantInput
 }
 
 """Used for declaring the type of plant."""
@@ -262,28 +220,10 @@ enum PlantType {
   TOMATO
 }
 
-type PlantsEdge {
-  cursor: DateTime
-  node: Plant
-}
-
-type PlantsPageInfo {
-  endCursor: DateTime
-  hasMore: Boolean
-  startCursor: DateTime
-}
-
-type PlantsResponse {
-  count: Int
-  edges: [PlantsEdge!]
-  errors: [ErrorResponse!]
-  pageInfo: PlantsPageInfo
-}
-
 type Plot {
   createdAt: DateTime
   dirtDepth: Float
-  plants: [Plant!]
+  plants: [UserPlant!]
   sizeX: Float
   sizeY: String
   updatedAt: DateTime
@@ -293,7 +233,7 @@ type Plot {
 
 type PlotPlantResponse {
   errors: [ErrorResponse!]
-  plant: Plant
+  plant: UserPlant
   plot: Plot
 }
 
@@ -301,7 +241,7 @@ input PlotPlantsInput {
   plotUuid: String!
   skip: Int!
   take: Int!
-  where: FindPlantInput
+  where: FindUserPlantInput
 }
 
 type PlotResponse {
@@ -331,14 +271,14 @@ type Query {
   findDisease(input: FindDiseaseInput!): DiseaseResponse!
   findDiseases(input: DiseasesInput!): DiseasesResponse!
   findHarvest(input: FindHarvestInput!): HarvestResponse!
-  findPlants(input: FindPlantsInput!): PlantsResponse!
   findPlot(input: FindPlotInput!): PlotResponse!
+  findUserPlant(input: FindUserPlantInput!): UserPlantResponse!
+  findUserPlants(input: FindUserPlantsInput!): UserPlantsResponse!
   me: UserResponse!
-  plant(input: FindPlantInput!): PlantResponse!
   plantDiseases(input: PlantDiseasesInput!): DiseasesResponse!
-  plantHarvests(input: PlantHarvestsInput!): HarvestsResponse!
-  plotPlants(input: PlotPlantsInput!): PlantsResponse!
+  plotUserPlants(input: PlotPlantsInput!): UserPlantsResponse!
   user(input: FindUserInput!): UserResponse!
+  userPlantHarvests(input: PlantHarvestsInput!): HarvestsResponse!
   userPlots(input: UserPlotsInput!): PlotsResponse!
 }
 
@@ -352,6 +292,45 @@ type User {
   updatedAt: DateTime
   username: String
   uuid: String
+}
+
+type UserPlant {
+  createdAt: DateTime
+  diseases: [Disease!]
+  harvests: [Harvest!]
+  image: String
+  name: String
+  plantedSeedsOn: DateTime
+  plot: Plot
+  scientificName: String
+  seedsSproutedOn: DateTime
+  type: PlantType
+  updatedAt: DateTime
+  uuid: String
+  variety: String
+}
+
+type UserPlantResponse {
+  errors: [ErrorResponse!]
+  plant: UserPlant
+}
+
+type UserPlantsEdge {
+  cursor: DateTime
+  node: UserPlant
+}
+
+type UserPlantsPageInfo {
+  endCursor: DateTime
+  hasMore: Boolean
+  startCursor: DateTime
+}
+
+type UserPlantsResponse {
+  count: Int
+  edges: [UserPlantsEdge!]
+  errors: [ErrorResponse!]
+  pageInfo: UserPlantsPageInfo
 }
 
 input UserPlotsInput {

@@ -1,18 +1,18 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { ErrorResponse } from '../../graphql/models/error.model';
-import { Plant } from '../models/user-plant.model';
+import { UserPlant } from '../models/user-plant.model';
 
 @ObjectType()
-export class PlantsEdge {
+export class UserPlantsEdge {
   @Field(() => Date, { nullable: true })
   cursor: Date | undefined;
 
-  @Field(() => Plant, { nullable: true })
-  node: Plant | undefined;
+  @Field(() => UserPlant, { nullable: true })
+  node: UserPlant | undefined;
 }
 
 @ObjectType()
-export class PlantsPageInfo {
+export class UserPlantsPageInfo {
   @Field(() => Date, { nullable: true })
   startCursor: Date | undefined;
 
@@ -24,15 +24,15 @@ export class PlantsPageInfo {
 }
 
 @ObjectType()
-export class PlantsResponse {
+export class UserPlantsResponse {
   @Field(() => Int, { nullable: true })
   count: number | undefined;
 
-  @Field(() => PlantsPageInfo, { nullable: true })
-  pageInfo: PlantsPageInfo | undefined;
+  @Field(() => UserPlantsPageInfo, { nullable: true })
+  pageInfo: UserPlantsPageInfo | undefined;
 
-  @Field(() => [PlantsEdge], { nullable: true })
-  edges: PlantsEdge[] | undefined;
+  @Field(() => [UserPlantsEdge], { nullable: true })
+  edges: UserPlantsEdge[] | undefined;
 
   @Field(() => [ErrorResponse], { nullable: true })
   errors?: ErrorResponse[] | undefined;

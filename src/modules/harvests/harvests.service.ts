@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { FindPlantInput } from 'modules/user-plants/dto/find-plant.input';
+import { FindUserPlantInput } from 'modules/user-plants/dto/find-user-plant.input';
 import { PrismaService } from 'nestjs-prisma';
 import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response';
-import { CreateHarvestInput } from './dto/createHarvest.input';
-import { FindHarvestInput } from './dto/findHarvest.input';
+import { CreateHarvestInput } from './dto/create-harvest.input';
+import { FindHarvestInput } from './dto/find-harvest.input';
 import { PlantHarvestsInput } from './dto/plant-harvests.input';
 import { HarvestResponse } from './responses/harvest.response';
 import { HarvestsEdge, HarvestsResponse } from './responses/harvests.response';
@@ -38,7 +38,7 @@ export class HarvestsService {
     };
   }
 
-  async createPlantHarvest(input: CreateHarvestInput): Promise<HarvestResponse> {
+  async createUserPlantHarvest(input: CreateHarvestInput): Promise<HarvestResponse> {
     const createdHarvest = await this.prisma.harvest.create({
       data: {
         amountHarvested: input.amountHarvested,
@@ -65,7 +65,7 @@ export class HarvestsService {
     };
   }
 
-  async deletePlantHarvest(input: FindHarvestInput): Promise<DeleteObjectResponse> {
+  async deleteUserPlantHarvest(input: FindHarvestInput): Promise<DeleteObjectResponse> {
     try {
       await this.prisma.harvest.delete({
         where: {
@@ -82,7 +82,7 @@ export class HarvestsService {
     }
   }
 
-  async plantHarvests(input: PlantHarvestsInput): Promise<HarvestsResponse> {
+  async userPlantHarvests(input: PlantHarvestsInput): Promise<HarvestsResponse> {
     // Fetch diseases
     const harvests = await this.prisma.harvest.findMany({
       take: input.take,

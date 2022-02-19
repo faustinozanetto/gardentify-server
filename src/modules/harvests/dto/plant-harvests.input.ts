@@ -1,5 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import { FindPlantInput } from 'modules/user-plants/dto/find-plant.input';
+import { FindUserPlantInput } from 'modules/user-plants/dto/find-user-plant.input';
 
 @InputType()
 export class PlantHarvestsInput {
@@ -9,6 +9,6 @@ export class PlantHarvestsInput {
   @Field(() => Int, { nullable: false })
   take: number;
 
-  @Field(() => FindPlantInput, { nullable: true, description: 'Input to select the plant' })
-  where?: FindPlantInput;
+  @Field(() => FindUserPlantInput, { nullable: true, description: 'Input to select the plant' })
+  where?: FindUserPlantInput;
 }

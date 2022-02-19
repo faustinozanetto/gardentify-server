@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Plant } from 'modules/user-plants/models/user-plant.model';
+import { UserPlant } from 'modules/user-plants/models/user-plant.model';
 import { ErrorResponse } from '../../graphql/models/error.model';
 import { Plot } from '../models/plot.model';
 
@@ -8,8 +8,8 @@ export class PlotPlantResponse {
   @Field(() => Plot, { nullable: true })
   plot?: Plot;
 
-  @Field(() => Plant, { nullable: true })
-  plant?: Plant;
+  @Field(() => UserPlant, { nullable: true })
+  plant?: UserPlant;
 
   @Field(() => [ErrorResponse], { nullable: true })
   errors?: ErrorResponse[];

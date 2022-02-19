@@ -1,10 +1,10 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response';
-import { PlantsResponse } from '../user-plants/responses/plants.response';
-import { CreatePlotInput } from './dto/createPlot.input';
+import { UserPlantsResponse } from '../user-plants/responses/user-plants.response';
+import { CreatePlotInput } from './dto/create-plot.input';
 import { FindPlotInput } from './dto/find-plot.inputs';
-import { PlotPlantsInput } from './dto/plotPlants.input';
-import { UserPlotsInput } from './dto/userPlots.input';
+import { PlotPlantsInput } from './dto/plot-user-plants.input';
+import { UserPlotsInput } from './dto/user-plots.input';
 import { Plot } from './models/plot.model';
 import { PlotsService } from './plots.service';
 import { PlotPlantResponse } from './responses/plot-plant.response';
@@ -31,18 +31,20 @@ export class PlotsResolver {
   }
 
   @Mutation(() => PlotPlantResponse)
-  async addPlantToPlot(
+  async addUserPlantToPlot(
     @Args('plotUuid') plotUuid: string,
     @Args('plantUuid') plantUuid: string,
   ): Promise<PlotPlantResponse> {
-    return await this.plotsService.addPlantToPlot(plotUuid, plantUuid);
+    return await this.plotsService.addUserPlantToPlot(plotUuid, plantUuid);
   }
 
   @Mutation(() => DeleteObjectResponse, {
     description: 'Removes the plant from the current plot if assigned',
   })
-  async removePlantFromPlot(@Args('plantUuid') plantUuid: string): Promise<DeleteObjectResponse> {
-    return await this.plotsService.removePlantFromPlot(plantUuid);
+  async removeUserPlantFromPlot(
+    @Args('plantUuid') plantUuid: string,
+  ): Promise<DeleteObjectResponse> {
+    return await this.plotsService.removeUserPlantFromPlot(plantUuid);
   }
 
   @Query(() => PlotsResponse)
@@ -50,8 +52,8 @@ export class PlotsResolver {
     return await this.plotsService.userPlots(input);
   }
 
-  @Query(() => PlantsResponse)
-  async plotPlants(@Args('input') input: PlotPlantsInput): Promise<PlantsResponse> {
-    return await this.plotsService.plotPlants(input);
+  @Query(() => UserPlantsResponse)
+  async plotUserPlants(@Args('input') input: PlotPlantsInput): Promise<UserPlantsResponse> {
+    return await this.plotsService.plotUserPlants(input);
   }
 }

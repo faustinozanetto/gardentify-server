@@ -1,14 +1,14 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import { FindPlantInput } from './find-plant.input';
+import { FindUserPlantInput } from './find-user-plant.input';
 
 @InputType()
-export class FindPlantsInput {
+export class FindUserPlantsInput {
   @Field(() => Int, { nullable: false })
   skip: number;
 
   @Field(() => Int, { nullable: false })
   take: number;
 
-  @Field(() => FindPlantInput, { nullable: true })
-  where?: FindPlantInput;
+  @Field(() => FindUserPlantInput, { nullable: true })
+  where?: FindUserPlantInput;
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DeleteObjectResponse } from 'modules/graphql/responses/deleteObject.response';
-import { FindPlantInput } from 'modules/user-plants/dto/find-plant.input';
+import { FindUserPlantInput } from 'modules/user-plants/dto/find-user-plant.input';
 import { PrismaService } from 'nestjs-prisma';
 import { DiseaseCreateInput } from './dto/disease-create.input';
 import { DiseasesInput } from './dto/diseases.input';
@@ -63,9 +63,9 @@ export class DiseasesService {
     }
   }
 
-  async addDiseaseToPlant(
+  async addDiseaseToUserPlant(
     disease: FindDiseaseInput,
-    plant: FindPlantInput,
+    plant: FindUserPlantInput,
   ): Promise<DiseaseResponse> {
     try {
       const updatedDisease = await this.prisma.diseasesOnPlants.create({
@@ -92,7 +92,7 @@ export class DiseasesService {
     }
   }
 
-  async deleteDiseaseFromPlant(
+  async deleteDiseaseFromUserPlant(
     diseaseUuid: string,
     plantUuid: string,
   ): Promise<DeleteObjectResponse> {

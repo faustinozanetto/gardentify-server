@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { FindPlantInput } from 'modules/user-plants/dto/find-plant.input';
+import { FindUserPlantInput } from 'modules/user-plants/dto/find-user-plant.input';
 import { PrismaService } from 'nestjs-prisma';
 import { parsePlantType } from '../../utils/plantUtils';
 import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response';
-import { PlantsEdge, PlantsResponse } from '../user-plants/responses/plants.response';
-import { CreatePlotInput } from './dto/createPlot.input';
+import { UserPlantsEdge, UserPlantsResponse } from '../user-plants/responses/user-plants.response';
+import { CreatePlotInput } from './dto/create-plot.input';
 import { FindPlotInput } from './dto/find-plot.inputs';
-import { PlotPlantsInput } from './dto/plotPlants.input';
-import { UserPlotsInput } from './dto/userPlots.input';
+import { PlotPlantsInput } from './dto/plot-user-plants.input';
+import { UserPlotsInput } from './dto/user-plots.input';
 import { PlotPlantResponse } from './responses/plot-plant.response';
 import { PlotResponse } from './responses/plot.response';
 import { PlotsEdge, PlotsResponse } from './responses/plots.response';
@@ -92,8 +92,8 @@ export class PlotsService {
     }
   }
 
-  async addPlantToPlot(plotUuid: string, plantUuid: string): Promise<PlotPlantResponse> {
-    const updatedPlant = await this.prisma.plant.update({
+  async addUserPlantToPlot(plotUuid: string, plantUuid: string): Promise<PlotPlantResponse> {
+    const updatedPlant = await this.prisma.userPlant.update({
       where: {
         uuid: plantUuid,
       },
@@ -122,8 +122,8 @@ export class PlotsService {
     };
   }
 
-  async removePlantFromPlot(plantUuid: string): Promise<DeleteObjectResponse> {
-    const updatedPlant = await this.prisma.plant.update({
+  async removeUserPlantFromPlot(plantUuid: string): Promise<DeleteObjectResponse> {
+    const updatedPlant = await this.prisma.userPlant.update({
       where: { uuid: plantUuid },
       data: {
         plot: { disconnect: true },
@@ -211,9 +211,9 @@ export class PlotsService {
     };
   }
 
-  async plotPlants(input: PlotPlantsInput): Promise<PlantsResponse> {
+  async plotUserPlants(input: PlotPlantsInput): Promise<UserPlantsResponse> {
     // Fetch plants
-    const plants = await this.prisma.plant.findMany({
+    const plants = await this.prisma.userPlant.findMany({
       take: input.take,
       skip: input.skip,
       where: {
@@ -251,7 +251,7 @@ export class PlotsService {
       e,
     }));
 
-    const mappedPlants: PlantsEdge[] = edges.map((e) => {
+    const mappedPlants: UserPlantsEdge[] = edges.map((e) => {
       return {
         cursor: e.cursor,
         node: {

@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response';
-import { CreateHarvestInput } from './dto/createHarvest.input';
-import { FindHarvestInput } from './dto/findHarvest.input';
+import { CreateHarvestInput } from './dto/create-harvest.input';
+import { FindHarvestInput } from './dto/find-harvest.input';
 import { PlantHarvestsInput } from './dto/plant-harvests.input';
 import { HarvestsService } from './harvests.service';
 import { Harvest } from './models/harvest.model';
@@ -18,17 +18,19 @@ export class HarvestsResolver {
   }
 
   @Mutation(() => HarvestResponse)
-  async createPlantHarvest(@Args('input') input: CreateHarvestInput): Promise<HarvestResponse> {
-    return await this.harvestsService.createPlantHarvest(input);
+  async createUserPlantHarvest(@Args('input') input: CreateHarvestInput): Promise<HarvestResponse> {
+    return await this.harvestsService.createUserPlantHarvest(input);
   }
 
   @Mutation(() => DeleteObjectResponse)
-  async deletePlantHarvest(@Args('input') input: FindHarvestInput): Promise<DeleteObjectResponse> {
-    return await this.harvestsService.deletePlantHarvest(input);
+  async deleteUserPlantHarvest(
+    @Args('input') input: FindHarvestInput,
+  ): Promise<DeleteObjectResponse> {
+    return await this.harvestsService.deleteUserPlantHarvest(input);
   }
 
   @Query(() => HarvestsResponse)
-  async plantHarvests(@Args('input') input: PlantHarvestsInput): Promise<HarvestsResponse> {
-    return await this.harvestsService.plantHarvests(input);
+  async userPlantHarvests(@Args('input') input: PlantHarvestsInput): Promise<HarvestsResponse> {
+    return await this.harvestsService.userPlantHarvests(input);
   }
 }

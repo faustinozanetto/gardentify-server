@@ -2,25 +2,26 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { parsePlantType } from '../../utils/plantUtils';
 import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response';
-import { CreatePlantInput } from './dto/create-plant.input';
-import { FindPlantsInput } from './dto/find-plants.input';
-import { FindPlantInput } from './dto/find-plant.input';
-import { PlantResponse } from './responses/plant.response';
-import { PlantsEdge, PlantsResponse } from './responses/plants.response';
+import { CreateUserPlantInput } from './dto/create-user-plant.input';
+import { FindUserPlantsInput } from './dto/find-user-plants.input';
+import { FindUserPlantInput } from './dto/find-user-plant.input';
+import { UserPlantResponse } from './responses/user-plant.response';
+import { UserPlantsEdge, UserPlantsResponse } from './responses/user-plants.response';
 
 @Injectable()
-export class PlantsService {
+export class UserPlantsService {
   constructor(private prisma: PrismaService) {}
 
-  async plant(input: FindPlantInput): Promise<PlantResponse> {
+  async findUserPlant(input: FindUserPlantInput): Promise<UserPlantResponse> {
     // Serach for plant.
-    const foundPlant = await this.prisma.plant.findUnique({
+    const foundPlant = await this.prisma.userPlant.findUnique({
       where: {
         ...input,
       },
       include: {
-        requirements: true,
         diseases: { include: { disease: true } },
+        harvests: true,
+        plot: true,
       },
     });
 
@@ -48,19 +49,16 @@ export class PlantsService {
     };
   }
 
-  async createPlant(input: CreatePlantInput): Promise<PlantResponse> {
-    const createdPlant = await this.prisma.plant.create({
+  async createUserPlant(input: CreateUserPlantInput): Promise<UserPlantResponse> {
+    const createdPlant = await this.prisma.userPlant.create({
       data: {
         ...input,
         type: parsePlantType(input.type),
-        requirements: {
-          create: {
-            ...input.requirements,
-          },
-        },
       },
       include: {
-        requirements: true,
+        diseases: { include: { disease: true } },
+        harvests: true,
+        plot: true,
       },
     });
 
@@ -76,18 +74,21 @@ export class PlantsService {
       };
     }
 
+    const mappedDiseases = createdPlant.diseases.map((d) => d.disease);
+
     // Return created plant
     return {
       plant: {
         ...createdPlant,
         type: parsePlantType(createdPlant.type),
+        diseases: mappedDiseases,
       },
     };
   }
 
-  async deletePlant(input: FindPlantInput): Promise<DeleteObjectResponse> {
+  async deleteUserPlant(input: FindUserPlantInput): Promise<DeleteObjectResponse> {
     try {
-      await this.prisma.plant.delete({
+      await this.prisma.userPlant.delete({
         where: {
           uuid: input.uuid,
         },
@@ -102,15 +103,16 @@ export class PlantsService {
     }
   }
 
-  async findPlants(input: FindPlantsInput): Promise<PlantsResponse> {
+  async findUserPlants(input: FindUserPlantsInput): Promise<UserPlantsResponse> {
     // Fetch plants
-    const plants = await this.prisma.plant.findMany({
+    const plants = await this.prisma.userPlant.findMany({
       take: input.take,
       skip: input.skip,
       where: { ...input.where },
       orderBy: { createdAt: 'desc' },
       include: {
-        requirements: true,
+        plot: true,
+        harvests: true,
         diseases: { include: { disease: true } },
       },
     });
@@ -130,7 +132,7 @@ export class PlantsService {
 
     // Check if there are more pages
     const hasMore = Boolean(
-      await this.prisma.disease.count({
+      await this.prisma.userPlant.count({
         take: 1,
         where: {
           createdAt: { lt: plants[plants.length - 1].createdAt },
@@ -144,7 +146,7 @@ export class PlantsService {
       e,
     }));
 
-    const mappedPlants: PlantsEdge[] = edges.map((e) => {
+    const mappedPlants: UserPlantsEdge[] = edges.map((e) => {
       const mappedDiseases = e.e.diseases.map((d) => d.disease);
       return {
         cursor: e.cursor,

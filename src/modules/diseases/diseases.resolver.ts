@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { DeleteObjectResponse } from 'modules/graphql/responses/deleteObject.response';
-import { FindPlantInput } from 'modules/user-plants/dto/find-plant.input';
+import { FindUserPlantInput } from 'modules/user-plants/dto/find-user-plant.input';
 import { DiseasesService } from './diseases.service';
 import { DiseaseCreateInput } from './dto/disease-create.input';
 import { DiseasesInput } from './dto/diseases.input';
@@ -25,19 +25,19 @@ export class DiseasesResolver {
   }
 
   @Mutation(() => DiseaseResponse)
-  async addDiseaseToPlant(
+  async addDiseaseToUserPlant(
     @Args('disease') disease: FindDiseaseInput,
-    @Args('plant') plant: FindPlantInput,
+    @Args('plant') plant: FindUserPlantInput,
   ): Promise<DiseaseResponse> {
-    return await this.diseasesService.addDiseaseToPlant(disease, plant);
+    return await this.diseasesService.addDiseaseToUserPlant(disease, plant);
   }
 
   @Mutation(() => DeleteObjectResponse)
-  async deleteDiseaseFromPlant(
+  async deleteDiseaseFromUserPlant(
     @Args('diseaseUuid') diseaseUuid: string,
     @Args('plantUuid') plantUuid: string,
   ): Promise<DeleteObjectResponse> {
-    return await this.diseasesService.deleteDiseaseFromPlant(diseaseUuid, plantUuid);
+    return await this.diseasesService.deleteDiseaseFromUserPlant(diseaseUuid, plantUuid);
   }
 
   @Query(() => DiseaseResponse)
