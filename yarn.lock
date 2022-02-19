@@ -928,10 +928,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@nestjs/apollo@^10.0.3":
-  version "10.0.3"
-  resolved "https://registry.yarnpkg.com/@nestjs/apollo/-/apollo-10.0.3.tgz#78b44a786d93fde5d5d0310e85093c62ec516485"
-  integrity sha512-g25ASPWfuktm0CpFWAjNTSYrtQT0N3ZyRn3lZXIymzvF4HdFnV1jeFdQPGsbenGtjoefkRCeSkEb/itVoV/bpQ==
+"@nestjs/apollo@^10.0.4":
+  version "10.0.4"
+  resolved "https://registry.yarnpkg.com/@nestjs/apollo/-/apollo-10.0.4.tgz#fbd47ff04e5c25d6db42dd96ad4c24fb6b8b8dac"
+  integrity sha512-PE4ZVQKctirbMaXXzkOsAdWVn8Z6JsQfLPxk4nn7vX9Ai6GykY1orjXzYaw0qm/wQmluURYe9+sm+c1m1XFhcQ==
   dependencies:
     iterall "1.3.0"
     lodash.omit "4.5.0"
@@ -1004,10 +1004,10 @@
     tslib "2.3.1"
     uuid "8.3.2"
 
-"@nestjs/graphql@10.0.3":
-  version "10.0.3"
-  resolved "https://registry.yarnpkg.com/@nestjs/graphql/-/graphql-10.0.3.tgz#6431b3c937e6c603fe8220740d44cf04bdb16ba0"
-  integrity sha512-nKLGLvhmVdpO/1SNDOYP00D2e76pyN+RV7nW3+10pCtBioWp4e8wn9PbfdXXI7EbsX/e+xd3f9vGYpWvRlJBdw==
+"@nestjs/graphql@^10.0.4":
+  version "10.0.4"
+  resolved "https://registry.yarnpkg.com/@nestjs/graphql/-/graphql-10.0.4.tgz#84b7c57221af0e665d978030195fbcbe8ac27a77"
+  integrity sha512-BcQ5wCOUqlrXOhEtp3JEfKY1pigX7w6E4BZ8hVziG3dYPQx/fg1+qyijFFhbL8isVpAtUbVO/7PkFtEK8546og==
   dependencies:
     "@graphql-tools/merge" "8.2.2"
     "@graphql-tools/schema" "8.3.1"
@@ -3480,10 +3480,10 @@ escodegen@^2.0.0:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-prettier@8.3.0:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.3.0.tgz#f7471b20b6fe8a9a9254cc684454202886a2dd7a"
-  integrity sha512-BgZuLUSeKzvlL/VUjx/Yb787VQ26RU3gGjA3iiFvdsp/2bMfVIWUVP7tjxtjS0e+HP409cPlPvNkQloz8C91ew==
+eslint-config-prettier@8.4.0:
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.4.0.tgz#8e6d17c7436649e98c4c2189868562921ef563de"
+  integrity sha512-CFotdUcMY18nGRo5KGsnNxpznzhkopOcOo0InID+sgQssPrzjvsyKZPvOgymTFeHrFuC3Tzdf2YndhXtULK9Iw==
 
 eslint-plugin-prettier@4.0.0:
   version "4.0.0"
@@ -6551,11 +6551,6 @@ printj@~1.1.0:
   resolved "https://registry.yarnpkg.com/printj/-/printj-1.1.2.tgz#d90deb2975a8b9f600fb3a1c94e3f4c53c78a222"
   integrity sha512-zA2SmoLaxZyArQTOPj5LXecR+RagfPSU5Kw1qP+jkWeNlrq+eJZyY2oS68SU1Z/7/myXM4lo9716laOFAVStCQ==
 
-prisma-offset-pagination@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/prisma-offset-pagination/-/prisma-offset-pagination-0.0.4.tgz#7d634de1be4b96101f488a9665e271c4220d9598"
-  integrity sha512-I/ITNhDa6gc4qqcVIwfr/CV/3+UsXSoAvYbMdl5UmGF9rUv6MNYaai+dirGhpHIOstzEZqWa4yHgAMlDxlSa7w==
-
 prisma@3.9.2:
   version "3.9.2"
   resolved "https://registry.yarnpkg.com/prisma/-/prisma-3.9.2.tgz#cc2da4e8db91231dea7465adf9db6e19f11032a9"
@@ -7855,10 +7850,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typegraphql-prisma@^0.18.5:
-  version "0.18.5"
-  resolved "https://registry.yarnpkg.com/typegraphql-prisma/-/typegraphql-prisma-0.18.5.tgz#c7cd63789c11a3d5c1df276556ff975df6e27952"
-  integrity sha512-Md3Kd3HLmYsUmX14mfZD5NrBjDL3vDAnYn80T6nwIGxalSvo06s3r1F+zo/c/rV2C/CMhmFWfMpIYGAI3kKxkg==
+typegraphql-prisma@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/typegraphql-prisma/-/typegraphql-prisma-0.19.0.tgz#20305fd11eb568725127e9529effaa9a454f834a"
+  integrity sha512-WKohk4LgK1RTIZ/urG54QcZQVdhusTEMn4iAghIEAO1/3awdnefJcnoz8WVBCBaBvEFTr72ekOyoplCNO9sq/g==
   dependencies:
     "@prisma/generator-helper" "~3.9.2"
     "@prisma/sdk" "~3.9.2"

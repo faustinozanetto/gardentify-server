@@ -15,6 +15,16 @@ input CreateHarvestInput {
   plantUuid: String!
 }
 
+input CreatePlantInput {
+  description: String!
+  image: String
+  name: String!
+  requirementsUuid: String!
+  scientificName: String!
+  type: PlantType!
+  variety: String!
+}
+
 input CreatePlotInput {
   dirtDepth: Float!
   sizeX: Float!
@@ -175,11 +185,13 @@ type Mutation {
   addDiseaseToUserPlant(disease: FindDiseaseInput!, plant: FindUserPlantInput!): DiseaseResponse!
   addUserPlantToPlot(plantUuid: String!, plotUuid: String!): PlotPlantResponse!
   createDisease(input: DiseaseCreateInput!): DiseaseResponse!
+  createPlant(input: CreatePlantInput!): PlantResponse!
   createPlot(input: CreatePlotInput!): PlotResponse!
   createUserPlant(input: CreateUserPlantInput!): UserPlantResponse!
   createUserPlantHarvest(input: CreateHarvestInput!): HarvestResponse!
   deleteDisease(input: FindDiseaseInput!): DeleteObjectResponse!
   deleteDiseaseFromUserPlant(diseaseUuid: String!, plantUuid: String!): DeleteObjectResponse!
+  deletePlant(input: FindPlantInput!): DeleteObjectResponse!
   deletePlot(uuid: String!): DeleteObjectResponse!
   deleteUserPlant(input: FindUserPlantInput!): DeleteObjectResponse!
 

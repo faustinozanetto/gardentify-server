@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { DeleteObjectResponse } from 'modules/graphql/responses/deleteObject.response';
 import { PrismaService } from 'nestjs-prisma';
 import { parsePlantType } from 'utils/plantUtils';
+import { CreatePlantInput } from './dto/create-plant.input';
 import { FindPlantInput } from './dto/find-plant.input';
 import { FindPlantsInput } from './dto/find-plants.input';
 import { PlantResponse } from './responses/plant.response';
@@ -103,5 +105,63 @@ export class PlantsService {
         endCursor: edges[edges.length - 1].cursor,
       },
     };
+  }
+
+  async createPlant(input: CreatePlantInput): Promise<PlantResponse> {
+    const createdPlant = await this.prisma.plant.create({
+      data: {
+        scientificName: input.scientificName,
+        name: input.name,
+        description: input.description,
+        variety: input.variety,
+        image: input.image ?? '',
+        type: parsePlantType(input.type),
+        requirements: { connect: { uuid: input.requirementsUuid } },
+      },
+      include: {
+        diseases: true,
+        requirements: true,
+      },
+    });
+
+    // Failed to create
+    if (!createdPlant) {
+      return {
+        errors: [
+          {
+            field: 'input',
+            message: 'Failed to create plant',
+          },
+        ],
+      };
+    }
+
+    const mappedDiseases = createdPlant.diseases.map((d) => d);
+
+    // Return created plant
+    return {
+      plant: {
+        ...createdPlant,
+        type: parsePlantType(createdPlant.type),
+        diseases: mappedDiseases,
+      },
+    };
+  }
+
+  async deletePlant(input: FindPlantInput): Promise<DeleteObjectResponse> {
+    try {
+      await this.prisma.plant.delete({
+        where: {
+          uuid: input.uuid,
+        },
+      });
+      return {
+        success: true,
+      };
+    } catch (error) {
+      return {
+        errors: [{ field: 'uuid', message: 'Failed to delete plant' }],
+      };
+    }
   }
 }
