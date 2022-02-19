@@ -3,7 +3,7 @@ import { DeleteObjectResponse } from 'modules/graphql/responses/deleteObject.res
 import { FindUserPlantInput } from 'modules/user-plants/dto/find-user-plant.input';
 import { DiseasesService } from './diseases.service';
 import { DiseaseCreateInput } from './dto/disease-create.input';
-import { DiseasesInput } from './dto/diseases.input';
+import { FindDiseasesInput } from './dto/find-diseases.input';
 import { FindDiseaseInput } from './dto/find-disease.input';
 import { PlantDiseasesInput } from './dto/plant-diseases.input';
 import { Disease } from './models/disease.model';
@@ -14,12 +14,27 @@ import { DiseasesResponse } from './responses/diseases.response';
 export class DiseasesResolver {
   constructor(private diseasesService: DiseasesService) {}
 
+  @Query(() => DiseaseResponse)
+  async findDisease(@Args('input') input: FindDiseaseInput): Promise<DiseaseResponse> {
+    return await this.diseasesService.findDisease(input);
+  }
+
+  @Query(() => DiseasesResponse)
+  async findDiseases(@Args('input') input: FindDiseasesInput): Promise<DiseasesResponse> {
+    return await this.diseasesService.findDiseases(input);
+  }
+
+  @Query(() => DiseasesResponse)
+  async userPlantDiseases(@Args('input') input: PlantDiseasesInput): Promise<DiseasesResponse> {
+    return await this.diseasesService.userPlantDiseases(input);
+  }
+
   @Mutation(() => DiseaseResponse)
   async createDisease(@Args('input') input: DiseaseCreateInput): Promise<DiseaseResponse> {
     return await this.diseasesService.createDisease(input);
   }
 
-  @Mutation(() => DiseaseResponse)
+  @Mutation(() => DeleteObjectResponse)
   async deleteDisease(@Args('input') input: FindDiseaseInput): Promise<DeleteObjectResponse> {
     return await this.diseasesService.deleteDisease(input);
   }
@@ -38,20 +53,5 @@ export class DiseasesResolver {
     @Args('plantUuid') plantUuid: string,
   ): Promise<DeleteObjectResponse> {
     return await this.diseasesService.deleteDiseaseFromUserPlant(diseaseUuid, plantUuid);
-  }
-
-  @Query(() => DiseaseResponse)
-  async findDisease(@Args('input') input: FindDiseaseInput): Promise<DiseaseResponse> {
-    return await this.diseasesService.findDisease(input);
-  }
-
-  @Query(() => DiseasesResponse)
-  async findDiseases(@Args('input') input: DiseasesInput): Promise<DiseasesResponse> {
-    return await this.diseasesService.findDiseases(input);
-  }
-
-  @Query(() => DiseasesResponse)
-  async plantDiseases(@Args('input') input: PlantDiseasesInput): Promise<DiseasesResponse> {
-    return await this.diseasesService.plantDiseases(input);
   }
 }

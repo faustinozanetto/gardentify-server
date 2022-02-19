@@ -17,6 +17,11 @@ export class HarvestsResolver {
     return await this.harvestsService.findHarvest(input);
   }
 
+  @Query(() => HarvestsResponse)
+  async userPlantHarvests(@Args('input') input: PlantHarvestsInput): Promise<HarvestsResponse> {
+    return await this.harvestsService.userPlantHarvests(input);
+  }
+
   @Mutation(() => HarvestResponse)
   async createUserPlantHarvest(@Args('input') input: CreateHarvestInput): Promise<HarvestResponse> {
     return await this.harvestsService.createUserPlantHarvest(input);
@@ -27,10 +32,5 @@ export class HarvestsResolver {
     @Args('input') input: FindHarvestInput,
   ): Promise<DeleteObjectResponse> {
     return await this.harvestsService.deleteUserPlantHarvest(input);
-  }
-
-  @Query(() => HarvestsResponse)
-  async userPlantHarvests(@Args('input') input: PlantHarvestsInput): Promise<HarvestsResponse> {
-    return await this.harvestsService.userPlantHarvests(input);
   }
 }

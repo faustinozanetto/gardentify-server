@@ -122,7 +122,7 @@ export class PlotsService {
     };
   }
 
-  async removeUserPlantFromPlot(plantUuid: string): Promise<DeleteObjectResponse> {
+  async deleteUserPlantFromPlot(plantUuid: string): Promise<DeleteObjectResponse> {
     const updatedPlant = await this.prisma.userPlant.update({
       where: { uuid: plantUuid },
       data: {

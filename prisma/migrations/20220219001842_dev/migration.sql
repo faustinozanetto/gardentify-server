@@ -39,6 +39,11 @@ CREATE TABLE "Plant" (
 -- CreateTable
 CREATE TABLE "UserPlant" (
     "uuid" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "scientificName" TEXT NOT NULL,
+    "variety" TEXT NOT NULL,
+    "type" "PlantType" NOT NULL,
+    "image" TEXT,
     "plantedSeedsOn" TIMESTAMP(3),
     "seedsSproutedOn" TIMESTAMP(3),
     "plotUuid" TEXT,

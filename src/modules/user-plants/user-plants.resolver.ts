@@ -17,6 +17,11 @@ export class UserPlantsResolver {
     return await this.userPlantsService.findUserPlant(input);
   }
 
+  @Query(() => UserPlantsResponse)
+  async findUserPlants(@Args('input') input: FindUserPlantsInput): Promise<UserPlantsResponse> {
+    return await this.userPlantsService.findUserPlants(input);
+  }
+
   @Mutation(() => UserPlantResponse)
   async createUserPlant(@Args('input') input: CreateUserPlantInput): Promise<UserPlantResponse> {
     return await this.userPlantsService.createUserPlant(input);
@@ -25,10 +30,5 @@ export class UserPlantsResolver {
   @Mutation(() => DeleteObjectResponse)
   async deleteUserPlant(@Args('input') input: FindUserPlantInput): Promise<DeleteObjectResponse> {
     return await this.userPlantsService.deleteUserPlant(input);
-  }
-
-  @Query(() => UserPlantsResponse)
-  async findUserPlants(@Args('input') input: FindUserPlantsInput): Promise<UserPlantsResponse> {
-    return await this.userPlantsService.findUserPlants(input);
   }
 }

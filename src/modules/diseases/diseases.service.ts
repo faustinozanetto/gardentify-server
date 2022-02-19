@@ -3,7 +3,7 @@ import { DeleteObjectResponse } from 'modules/graphql/responses/deleteObject.res
 import { FindUserPlantInput } from 'modules/user-plants/dto/find-user-plant.input';
 import { PrismaService } from 'nestjs-prisma';
 import { DiseaseCreateInput } from './dto/disease-create.input';
-import { DiseasesInput } from './dto/diseases.input';
+import { FindDiseasesInput } from './dto/find-diseases.input';
 import { FindDiseaseInput } from './dto/find-disease.input';
 import { PlantDiseasesInput } from './dto/plant-diseases.input';
 import { DiseaseResponse } from './responses/disease.response';
@@ -147,7 +147,7 @@ export class DiseasesService {
     };
   }
 
-  async findDiseases(input: DiseasesInput): Promise<DiseasesResponse> {
+  async findDiseases(input: FindDiseasesInput): Promise<DiseasesResponse> {
     // Fetch diseases
     const diseases = await this.prisma.disease.findMany({
       take: input.take,
@@ -205,7 +205,7 @@ export class DiseasesService {
     };
   }
 
-  async plantDiseases(input: PlantDiseasesInput): Promise<DiseasesResponse> {
+  async userPlantDiseases(input: PlantDiseasesInput): Promise<DiseasesResponse> {
     // Get diseases.
     const plantDiseases = await this.prisma.diseasesOnPlants.findMany({
       where: {

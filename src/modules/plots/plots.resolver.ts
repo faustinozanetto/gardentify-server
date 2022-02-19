@@ -15,10 +15,30 @@ import { PlotsResponse } from './responses/plots.response';
 export class PlotsResolver {
   constructor(private plotsService: PlotsService) {}
 
-  @Query(() => PlotResponse)
+  /*===================QUERIES===================*/
+
+  @Query(() => PlotResponse, {
+    description: 'Returns, if found, a plot with the given input.',
+  })
   async findPlot(@Args('input') input: FindPlotInput): Promise<PlotResponse> {
     return await this.plotsService.plotByUuid(input);
   }
+
+  @Query(() => PlotsResponse, {
+    description: 'Returns all the user´s plots.',
+  })
+  async userPlots(@Args('input') input: UserPlotsInput): Promise<PlotsResponse> {
+    return await this.plotsService.userPlots(input);
+  }
+
+  @Query(() => UserPlantsResponse, {
+    description: 'Returns all the plants in a specific user´s plot.',
+  })
+  async plotUserPlants(@Args('input') input: PlotPlantsInput): Promise<UserPlantsResponse> {
+    return await this.plotsService.plotUserPlants(input);
+  }
+
+  /*===================MUTATIONS===================*/
 
   @Mutation(() => PlotResponse)
   async createPlot(@Args('input') input: CreatePlotInput): Promise<PlotResponse> {
@@ -41,19 +61,9 @@ export class PlotsResolver {
   @Mutation(() => DeleteObjectResponse, {
     description: 'Removes the plant from the current plot if assigned',
   })
-  async removeUserPlantFromPlot(
+  async deleteUserPlantFromPlot(
     @Args('plantUuid') plantUuid: string,
   ): Promise<DeleteObjectResponse> {
-    return await this.plotsService.removeUserPlantFromPlot(plantUuid);
-  }
-
-  @Query(() => PlotsResponse)
-  async userPlots(@Args('input') input: UserPlotsInput): Promise<PlotsResponse> {
-    return await this.plotsService.userPlots(input);
-  }
-
-  @Query(() => UserPlantsResponse)
-  async plotUserPlants(@Args('input') input: PlotPlantsInput): Promise<UserPlantsResponse> {
-    return await this.plotsService.plotUserPlants(input);
+    return await this.plotsService.deleteUserPlantFromPlot(plantUuid);
   }
 }
