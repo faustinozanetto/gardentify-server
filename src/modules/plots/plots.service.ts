@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { FindUserPlantInput } from 'modules/user-plants/dto/find-user-plant.input';
 import { PrismaService } from 'nestjs-prisma';
+import { parseUserAuthProvider } from 'utils/userUtilts';
 import { parsePlantType } from '../../utils/plantUtils';
 import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response';
 import { UserPlantsEdge, UserPlantsResponse } from '../user-plants/responses/user-plants.response';
@@ -9,6 +9,7 @@ import { FindPlotInput } from './dto/find-plot.inputs';
 import { PlotPlantsInput } from './dto/plot-user-plants.input';
 import { UserPlotsInput } from './dto/user-plots.input';
 import { PlotPlantResponse } from './responses/plot-plant.response';
+import { PlotUserPlantsResponse } from './responses/plot-user-plants.response';
 import { PlotResponse } from './responses/plot.response';
 import { PlotsEdge, PlotsResponse } from './responses/plots.response';
 
@@ -20,6 +21,9 @@ export class PlotsService {
     // Serach for plant.
     const foundPlot = await this.prisma.plot.findUnique({
       where: { ...input },
+      include: {
+        user: true,
+      },
     });
 
     // Plot not found.
@@ -38,6 +42,10 @@ export class PlotsService {
     return {
       plot: {
         ...foundPlot,
+        user: {
+          ...foundPlot.user,
+          authProvider: parseUserAuthProvider(foundPlot.user.authProvider),
+        },
       },
     };
   }
@@ -48,6 +56,8 @@ export class PlotsService {
         sizeX: input.sizeX,
         sizeY: input.sizeY,
         dirtDepth: input.dirtDepth,
+        image: input.image,
+        name: input.name,
         user: {
           connect: {
             uuid: input.userUuid,
@@ -211,7 +221,7 @@ export class PlotsService {
     };
   }
 
-  async plotUserPlants(input: PlotPlantsInput): Promise<UserPlantsResponse> {
+  async plotUserPlants(input: PlotPlantsInput): Promise<PlotUserPlantsResponse> {
     // Fetch plants
     const plants = await this.prisma.userPlant.findMany({
       take: input.take,
@@ -219,6 +229,7 @@ export class PlotsService {
       where: {
         plot: { uuid: input.plotUuid },
       },
+      include: { plot: true, harvests: true },
       orderBy: { createdAt: 'desc' },
     });
 
@@ -227,6 +238,7 @@ export class PlotsService {
       return {
         count: 0,
         edges: [],
+        plot: null,
         pageInfo: {
           hasMore: false,
           startCursor: null,
@@ -261,9 +273,11 @@ export class PlotsService {
       };
     });
 
+    // TODO:  Maybe add a query to get the plot.
     return {
       count: plants.length,
       edges: mappedPlants,
+      plot: plants[0].plot,
       pageInfo: {
         hasMore,
         startCursor: edges[0].cursor,

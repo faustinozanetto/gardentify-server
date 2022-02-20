@@ -8,6 +8,7 @@ import { FindDiseaseInput } from './dto/find-disease.input';
 import { PlantDiseasesInput } from './dto/plant-diseases.input';
 import { DiseaseResponse } from './responses/disease.response';
 import { DiseasesEdge, DiseasesResponse } from './responses/diseases.response';
+import { FindPlantInput } from 'modules/plant/dto/find-plant.input';
 
 @Injectable()
 export class DiseasesService {
@@ -104,6 +105,64 @@ export class DiseasesService {
             plantUuid: plantUuid,
           },
         },
+      });
+      // Completed
+      return {
+        success: true,
+      };
+    } catch (error: unknown) {
+      // Failed to delete.
+      return {
+        errors: [
+          {
+            field: 'disease',
+            message: 'Could not delete disease from plant',
+          },
+        ],
+        success: false,
+      };
+    }
+  }
+
+  async addDiseaseToPlant(
+    disease: FindDiseaseInput,
+    plant: FindPlantInput,
+  ): Promise<DiseaseResponse> {
+    try {
+      const updatedDisease = await this.prisma.plant.update({
+        where: {
+          uuid: plant.uuid,
+        },
+        data: { diseases: { connect: { uuid: disease.uuid } } },
+        include: { diseases: true },
+      });
+      // Return updated disease.
+      return {
+        disease: updatedDisease.diseases.find((d) => d.uuid === disease.uuid),
+      };
+    } catch (error: unknown) {
+      // Could not add disease.
+      return {
+        errors: [
+          {
+            field: 'disease',
+            message: 'Could not add disease to plant',
+          },
+        ],
+      };
+    }
+  }
+
+  async deleteDiseaseFromPlant(
+    diseaseUuid: string,
+    plantUuid: string,
+  ): Promise<DeleteObjectResponse> {
+    try {
+      await this.prisma.plant.update({
+        where: {
+          uuid: plantUuid,
+        },
+        data: { diseases: { delete: { uuid: diseaseUuid } } },
       });
       // Completed
       return {

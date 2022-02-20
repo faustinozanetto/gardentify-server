@@ -18,7 +18,7 @@ export class PlantsResolver {
   }
 
   @Query(() => PlantsResponse)
-  async findUserPlants(@Args('input') input: FindPlantsInput): Promise<PlantsResponse> {
+  async findPlants(@Args('input') input: FindPlantsInput): Promise<PlantsResponse> {
     return await this.plantsService.findPlants(input);
   }
 

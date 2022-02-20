@@ -5,6 +5,9 @@ export class CreatePlotInput {
   @Field(() => String, { nullable: false })
   userUuid: string;
 
+  @Field(() => String, { nullable: true })
+  name?: string;
+
   @Field(() => Float, { nullable: false })
   sizeX: number;
 
@@ -13,4 +16,7 @@ export class CreatePlotInput {
 
   @Field(() => Float, { nullable: false })
   dirtDepth: number;
+
+  @Field(() => String, { nullable: true })
+  image?: string;
 }

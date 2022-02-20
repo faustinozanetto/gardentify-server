@@ -14,6 +14,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
 import { DiseasesModule } from 'modules/diseases/diseases.module';
 import { PlantsModule } from 'modules/plant/plants.module';
+import { PlantsRequirementsModule } from 'modules/plant-requirements/plants-requirements.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { PlantsModule } from 'modules/plant/plants.module';
     AuthModule,
     UsersModule,
     PlantsModule,
+    PlantsRequirementsModule,
     UserPlantsModule,
     PlotsModule,
     HarvestsModule,

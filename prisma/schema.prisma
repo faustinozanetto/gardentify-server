@@ -114,9 +114,11 @@ model PlantRequirements {
 model Plot {
   // Plot characteristics.
   uuid      String      @id @default(cuid())
+  name      String?     @default("Plot")
   sizeX     Float       @default(0)
   sizeY     Float       @default(0)
   dirtDepth Float       @default(0)
+  image     String?
   // User plants in the plot.
   plants    UserPlant[]
 

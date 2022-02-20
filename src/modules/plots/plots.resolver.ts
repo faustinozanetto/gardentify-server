@@ -8,6 +8,7 @@ import { UserPlotsInput } from './dto/user-plots.input';
 import { Plot } from './models/plot.model';
 import { PlotsService } from './plots.service';
 import { PlotPlantResponse } from './responses/plot-plant.response';
+import { PlotUserPlantsResponse } from './responses/plot-user-plants.response';
 import { PlotResponse } from './responses/plot.response';
 import { PlotsResponse } from './responses/plots.response';
 
@@ -31,10 +32,10 @@ export class PlotsResolver {
     return await this.plotsService.userPlots(input);
   }
 
-  @Query(() => UserPlantsResponse, {
+  @Query(() => PlotUserPlantsResponse, {
     description: 'Returns all the plants in a specific user´s plot.',
   })
-  async plotUserPlants(@Args('input') input: PlotPlantsInput): Promise<UserPlantsResponse> {
+  async plotUserPlants(@Args('input') input: PlotPlantsInput): Promise<PlotUserPlantsResponse> {
     return await this.plotsService.plotUserPlants(input);
   }
 

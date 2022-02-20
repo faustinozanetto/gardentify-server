@@ -9,6 +9,7 @@ import { PlantDiseasesInput } from './dto/plant-diseases.input';
 import { Disease } from './models/disease.model';
 import { DiseaseResponse } from './responses/disease.response';
 import { DiseasesResponse } from './responses/diseases.response';
+import { FindPlantInput } from 'modules/plant/dto/find-plant.input';
 
 @Resolver(() => Disease)
 export class DiseasesResolver {
@@ -53,5 +54,21 @@ export class DiseasesResolver {
     @Args('plantUuid') plantUuid: string,
   ): Promise<DeleteObjectResponse> {
     return await this.diseasesService.deleteDiseaseFromUserPlant(diseaseUuid, plantUuid);
+  }
+
+  @Mutation(() => DiseaseResponse)
+  async addDiseaseToPlant(
+    @Args('disease') disease: FindDiseaseInput,
+    @Args('plant') plant: FindPlantInput,
+  ): Promise<DiseaseResponse> {
+    return await this.diseasesService.addDiseaseToPlant(disease, plant);
+  }
+
+  @Mutation(() => DeleteObjectResponse)
+  async deleteDiseaseFromPlant(
+    @Args('diseaseUuid') diseaseUuid: string,
+    @Args('plantUuid') plantUuid: string,
+  ): Promise<DeleteObjectResponse> {
+    return await this.diseasesService.deleteDiseaseFromPlant(diseaseUuid, plantUuid);
   }
 }

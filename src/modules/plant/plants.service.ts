@@ -20,6 +20,7 @@ export class PlantsService {
         ...input,
       },
       include: {
+        diseases: true,
         requirements: true,
       },
     });
@@ -40,7 +41,7 @@ export class PlantsService {
       plant: {
         ...foundPlant,
         type: parsePlantType(foundPlant.type),
-        diseases: null,
+        diseases: foundPlant.diseases,
       },
     };
   }

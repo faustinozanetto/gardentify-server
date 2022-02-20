@@ -5,6 +5,9 @@ import { User } from '../../users/models/user.model';
 
 @ObjectType({ isAbstract: true })
 export class Plot extends BaseModel {
+  @Field(() => String, { nullable: true })
+  name?: string;
+
   @Field(() => Float, { nullable: true })
   sizeX?: number;
 
@@ -13,6 +16,9 @@ export class Plot extends BaseModel {
 
   @Field(() => Float, { nullable: true })
   dirtDepth?: number;
+
+  @Field(() => String, { nullable: true })
+  image?: string;
 
   @Field(() => [UserPlant], { nullable: true })
   plants?: UserPlant[];
