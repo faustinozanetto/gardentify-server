@@ -8,6 +8,9 @@ export class Plot extends BaseModel {
   @Field(() => String, { nullable: true })
   name?: string;
 
+  @Field(() => String, { nullable: true })
+  description?: string;
+
   @Field(() => Float, { nullable: true })
   sizeX?: number;
 

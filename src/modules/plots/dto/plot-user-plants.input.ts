@@ -3,6 +3,9 @@ import { FindUserPlantInput } from '../../user-plants/dto/find-user-plant.input'
 
 @InputType()
 export class PlotPlantsInput {
+  @Field(() => Boolean, { nullable: false })
+  includePlot: boolean;
+
   @Field(() => Int, { nullable: false })
   skip: number;
 

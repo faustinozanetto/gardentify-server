@@ -26,6 +26,7 @@ input CreatePlantInput {
 }
 
 input CreatePlotInput {
+  description: String!
   dirtDepth: Float!
   image: String
   name: String
@@ -317,6 +318,7 @@ type PlantsResponse {
 
 type Plot {
   createdAt: DateTime
+  description: String
   dirtDepth: Float
   image: String
   name: String
@@ -335,6 +337,7 @@ type PlotPlantResponse {
 }
 
 input PlotPlantsInput {
+  includePlot: Boolean!
   plotUuid: String!
   skip: Int!
   take: Int!

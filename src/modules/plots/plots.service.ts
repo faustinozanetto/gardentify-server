@@ -8,6 +8,7 @@ import { CreatePlotInput } from './dto/create-plot.input';
 import { FindPlotInput } from './dto/find-plot.inputs';
 import { PlotPlantsInput } from './dto/plot-user-plants.input';
 import { UserPlotsInput } from './dto/user-plots.input';
+import { Plot } from './models/plot.model';
 import { PlotPlantResponse } from './responses/plot-plant.response';
 import { PlotUserPlantsResponse } from './responses/plot-user-plants.response';
 import { PlotResponse } from './responses/plot.response';
@@ -51,6 +52,21 @@ export class PlotsService {
   }
 
   async createPlot(input: CreatePlotInput): Promise<PlotResponse> {
+    const user = await this.prisma.user.findUnique({
+      where: { uuid: input.userUuid },
+    });
+
+    if (!user) {
+      return {
+        errors: [
+          {
+            field: 'userUuid',
+            message: 'User not found',
+          },
+        ],
+      };
+    }
+
     const createdPlot = await this.prisma.plot.create({
       data: {
         sizeX: input.sizeX,
@@ -58,6 +74,7 @@ export class PlotsService {
         dirtDepth: input.dirtDepth,
         image: input.image,
         name: input.name,
+        description: input.description,
         user: {
           connect: {
             uuid: input.userUuid,
@@ -223,13 +240,22 @@ export class PlotsService {
 
   async plotUserPlants(input: PlotPlantsInput): Promise<PlotUserPlantsResponse> {
     // Fetch plants
+    let plot: Plot = null;
+    if (input.includePlot) {
+      plot = await this.prisma.plot.findUnique({
+        where: {
+          uuid: input.plotUuid,
+        },
+      });
+    }
+
     const plants = await this.prisma.userPlant.findMany({
       take: input.take,
       skip: input.skip,
       where: {
         plot: { uuid: input.plotUuid },
       },
-      include: { plot: true, harvests: true },
+      include: { harvests: true },
       orderBy: { createdAt: 'desc' },
     });
 
@@ -272,12 +298,10 @@ export class PlotsService {
         },
       };
     });
-
-    // TODO:  Maybe add a query to get the plot.
     return {
       count: plants.length,
       edges: mappedPlants,
-      plot: plants[0].plot,
+      plot: plot,
       pageInfo: {
         hasMore,
         startCursor: edges[0].cursor,

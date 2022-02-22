@@ -8,6 +8,9 @@ export class CreatePlotInput {
   @Field(() => String, { nullable: true })
   name?: string;
 
+  @Field(() => String, { nullable: false })
+  description: string;
+
   @Field(() => Float, { nullable: false })
   sizeX: number;
 
