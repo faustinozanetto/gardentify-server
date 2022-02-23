@@ -4,6 +4,7 @@ import { UserPlantsResponse } from '../user-plants/responses/user-plants.respons
 import { CreatePlotInput } from './dto/create-plot.input';
 import { FindPlotInput } from './dto/find-plot.inputs';
 import { PlotPlantsInput } from './dto/plot-user-plants.input';
+import { UpdatePlotInput } from './dto/update-plot.input';
 import { UserPlotsInput } from './dto/user-plots.input';
 import { Plot } from './models/plot.model';
 import { PlotsService } from './plots.service';
@@ -66,5 +67,10 @@ export class PlotsResolver {
     @Args('plantUuid') plantUuid: string,
   ): Promise<DeleteObjectResponse> {
     return await this.plotsService.deleteUserPlantFromPlot(plantUuid);
+  }
+
+  @Mutation(() => PlotResponse)
+  async updatePlot(@Args('input') input: UpdatePlotInput): Promise<PlotResponse> {
+    return await this.plotsService.updatePlot(input);
   }
 }

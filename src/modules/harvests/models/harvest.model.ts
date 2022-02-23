@@ -7,6 +7,9 @@ export class Harvest extends BaseModel {
   @Field(() => UserPlant, { nullable: true })
   plant?: UserPlant;
 
+  @Field(() => String, { nullable: true })
+  image?: string;
+
   @Field(() => Int, { nullable: true })
   amountHarvested?: number;
 

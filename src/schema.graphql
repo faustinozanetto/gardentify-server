@@ -12,6 +12,8 @@ enum AuthProvider {
 input CreateHarvestInput {
   amountHarvested: Int!
   harvestWeight: Float!
+  harvestedOn: DateTime!
+  image: String!
   plantUuid: String!
 }
 
@@ -167,6 +169,7 @@ type Harvest {
   createdAt: DateTime
   harvestWeight: Float
   harvestedOn: DateTime
+  image: String
   plant: UserPlant
   updatedAt: DateTime
   uuid: String
@@ -217,6 +220,7 @@ type Mutation {
   deleteUserPlantFromPlot(plantUuid: String!): DeleteObjectResponse!
   deleteUserPlantHarvest(input: FindHarvestInput!): DeleteObjectResponse!
   logout: Boolean!
+  updatePlot(input: UpdatePlotInput!): PlotResponse!
 }
 
 type Plant {
@@ -408,6 +412,16 @@ type Query {
 
   """Returns all the user´s plots."""
   userPlots(input: UserPlotsInput!): PlotsResponse!
+}
+
+input UpdatePlotInput {
+  description: String
+  dirtDepth: Float
+  image: String
+  name: String
+  sizeX: Float
+  sizeY: Float
+  uuid: String!
 }
 
 type User {

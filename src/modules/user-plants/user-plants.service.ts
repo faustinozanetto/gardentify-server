@@ -7,6 +7,7 @@ import { FindUserPlantsInput } from './dto/find-user-plants.input';
 import { FindUserPlantInput } from './dto/find-user-plant.input';
 import { UserPlantResponse } from './responses/user-plant.response';
 import { UserPlantsEdge, UserPlantsResponse } from './responses/user-plants.response';
+import { parseUserAuthProvider } from 'utils/userUtilts';
 
 @Injectable()
 export class UserPlantsService {
@@ -22,6 +23,7 @@ export class UserPlantsService {
         diseases: { include: { disease: true } },
         harvests: true,
         plot: true,
+        user: true,
       },
     });
 
@@ -38,6 +40,7 @@ export class UserPlantsService {
     }
 
     const mappedDiseases = foundPlant.diseases.map((d) => d.disease);
+    const parsedAuthProvider = parseUserAuthProvider(foundPlant?.user?.authProvider);
 
     // Plant found.
     return {
@@ -45,6 +48,10 @@ export class UserPlantsService {
         ...foundPlant,
         type: parsePlantType(foundPlant.type),
         diseases: mappedDiseases,
+        user: {
+          ...foundPlant.user,
+          authProvider: parsedAuthProvider,
+        },
       },
     };
   }

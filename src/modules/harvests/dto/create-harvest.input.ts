@@ -5,6 +5,12 @@ export class CreateHarvestInput {
   @Field(() => String, { nullable: false })
   plantUuid: string;
 
+  @Field(() => String, { nullable: false })
+  image: string;
+
+  @Field(() => Date, { nullable: false })
+  harvestedOn: Date;
+
   @Field(() => Int, { nullable: false })
   amountHarvested: number;
 

@@ -7,6 +7,7 @@ import { UserPlantsEdge, UserPlantsResponse } from '../user-plants/responses/use
 import { CreatePlotInput } from './dto/create-plot.input';
 import { FindPlotInput } from './dto/find-plot.inputs';
 import { PlotPlantsInput } from './dto/plot-user-plants.input';
+import { UpdatePlotInput } from './dto/update-plot.input';
 import { UserPlotsInput } from './dto/user-plots.input';
 import { Plot } from './models/plot.model';
 import { PlotPlantResponse } from './responses/plot-plant.response';
@@ -308,5 +309,30 @@ export class PlotsService {
         endCursor: edges[edges.length - 1].cursor,
       },
     };
+  }
+
+  async updatePlot(input: UpdatePlotInput): Promise<PlotResponse> {
+    try {
+      const plot = await this.prisma.plot.update({
+        where: {
+          uuid: input.uuid,
+        },
+        data: {
+          ...input,
+        },
+      });
+      return {
+        plot,
+      };
+    } catch (error) {
+      return {
+        errors: [
+          {
+            field: 'input',
+            message: 'Failed to update plot',
+          },
+        ],
+      };
+    }
   }
 }
