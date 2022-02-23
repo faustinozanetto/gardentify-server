@@ -47,7 +47,8 @@ model User {
   authProvider AuthProvider @default(DEFAULT)
 
   // Plots
-  plots Plot[]
+  plots      Plot[]
+  userPlants UserPlant[]
 
   accessToken  String
   refreshToken String
@@ -89,6 +90,9 @@ model UserPlant {
   // Plot relation.
   plot     Plot?              @relation(fields: [plotUuid], references: [uuid])
   plotUuid String?
+  // Owner relation
+  user     User?              @relation(fields: [userUuid], references: [uuid])
+  userUuid String?
   // Plant harvests.
   harvests Harvest[]
   // Registered diseases.

@@ -15,6 +15,9 @@ export class CreateUserPlantInput {
   @Field(() => PlantType, { nullable: false })
   type: PlantType;
 
+  @Field(() => String, { nullable: false })
+  userUuid: string;
+
   @Field(() => String, { nullable: true })
   image?: string;
 

@@ -42,6 +42,7 @@ input CreateUserPlantInput {
   scientificName: String!
   seedsSproutedOn: DateTime
   type: PlantType!
+  userUuid: String!
   variety: String!
 }
 
@@ -324,7 +325,7 @@ type Plot {
   name: String
   plants: [UserPlant!]
   sizeX: Float
-  sizeY: String
+  sizeY: Float
   updatedAt: DateTime
   user: User
   uuid: String
@@ -433,6 +434,7 @@ type UserPlant {
   seedsSproutedOn: DateTime
   type: PlantType
   updatedAt: DateTime
+  user: User
   uuid: String
   variety: String
 }

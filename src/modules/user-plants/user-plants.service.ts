@@ -52,11 +52,16 @@ export class UserPlantsService {
   async createUserPlant(input: CreateUserPlantInput): Promise<UserPlantResponse> {
     const createdPlant = await this.prisma.userPlant.create({
       data: {
-        ...input,
+        name: input.name,
+        scientificName: input.scientificName,
+        variety: input.variety,
+        image: input.image,
+        plantedSeedsOn: input.plantedSeedsOn,
+        seedsSproutedOn: input.seedsSproutedOn,
+        user: { connect: { uuid: input.userUuid } },
         type: parsePlantType(input.type),
       },
       include: {
-        diseases: { include: { disease: true } },
         harvests: true,
         plot: true,
       },
@@ -74,14 +79,14 @@ export class UserPlantsService {
       };
     }
 
-    const mappedDiseases = createdPlant.diseases.map((d) => d.disease);
+    //const mappedDiseases = createdPlant.diseases.map((d) => d.disease);
 
     // Return created plant
     return {
       plant: {
         ...createdPlant,
         type: parsePlantType(createdPlant.type),
-        diseases: mappedDiseases,
+        diseases: [],
       },
     };
   }

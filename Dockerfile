@@ -1,4 +1,4 @@
-FROM node:14.17-alpine3.13 as development
+FROM node:16-alpine AS builder
 
 # Create app directory
 WORKDIR /app
@@ -14,11 +14,12 @@ COPY . .
 
 RUN npm run build
 
-FROM node:14.17-alpine3.13 as production
+FROM node:16-alpine
 
-COPY --from=development /app/node_modules ./node_modules
-COPY --from=development /app/package*.json ./
-COPY --from=development /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 4000
-CMD [ "npm", "run", "start:prod" ]
+CMD [  "npm", "run", "start:migrate:prod" ]

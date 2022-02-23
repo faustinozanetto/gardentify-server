@@ -1,23 +1,23 @@
 version: '3.8'
 services:
-  mecha-type-api:
+  gardentify-server:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: mecha-type-api
+    container_name: gardentify-server
     restart: always
     ports:
       - 4000:4000
     expose:
       - 4000
     depends_on:
-      - mecha-type-db
+      - gardentify-server-db
     env_file:
       - .env
 
-  mecha-type-db:
+  gardentify-server-db:
     image: postgres:13
-    container_name: mecha-type-db
+    container_name: gardentify-server-db
     restart: always
     ports:
       - '5432:5432'
@@ -31,4 +31,4 @@ services:
 
 volumes:
   postgres:
-    name: nest-prisma-docker-db
+    name: gardentify-server

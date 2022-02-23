@@ -9,7 +9,7 @@ import { AuthenticationProvider, UserDetails } from '../auth';
 export class GithubStrategy extends PassportStrategy(Strategy) {
   constructor(
     @Inject('AUTH_SERVICE')
-    private readonly authService: AuthenticationProvider
+    private readonly authService: AuthenticationProvider,
   ) {
     super({
       clientID: process.env.GITHUB_CLIENT_ID,
