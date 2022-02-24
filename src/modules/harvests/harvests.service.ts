@@ -41,6 +41,7 @@ export class HarvestsService {
   async createUserPlantHarvest(input: CreateHarvestInput): Promise<HarvestResponse> {
     const createdHarvest = await this.prisma.harvest.create({
       data: {
+        image: input.image,
         harvestedOn: input.harvestedOn,
         amountHarvested: input.amountHarvested,
         harvestWeight: input.harvestWeight,

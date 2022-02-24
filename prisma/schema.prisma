@@ -141,6 +141,8 @@ model DiseasesOnPlants {
   disease     Disease   @relation(fields: [diseaseUuid], references: [uuid])
   diseaseUuid String
 
+  appearedOn DateTime
+
   @@id([plantUuid, diseaseUuid])
 }
 
@@ -164,7 +166,7 @@ model Harvest {
 model Disease {
   uuid           String  @id @default(cuid())
   scientificName String
-  description    String
+  description    String? @default("")
   image          String?
 
   // Relation used by informational plant model. One to Many.

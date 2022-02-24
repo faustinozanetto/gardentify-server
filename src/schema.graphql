@@ -2,6 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AddDiseaseToUserPlantInput {
+  appearedOn: DateTime!
+}
+
 """User auth provider service"""
 enum AuthProvider {
   DEFAULT
@@ -200,7 +204,7 @@ type HarvestsResponse {
 
 type Mutation {
   addDiseaseToPlant(disease: FindDiseaseInput!, plant: FindPlantInput!): DiseaseResponse!
-  addDiseaseToUserPlant(disease: FindDiseaseInput!, plant: FindUserPlantInput!): DiseaseResponse!
+  addDiseaseToUserPlant(disease: FindDiseaseInput!, input: AddDiseaseToUserPlantInput!, plant: FindUserPlantInput!): DiseaseResponse!
   addUserPlantToPlot(plantUuid: String!, plotUuid: String!): PlotPlantResponse!
   createDisease(input: DiseaseCreateInput!): DiseaseResponse!
   createPlant(input: CreatePlantInput!): PlantResponse!

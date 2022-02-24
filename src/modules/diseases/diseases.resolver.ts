@@ -10,6 +10,7 @@ import { Disease } from './models/disease.model';
 import { DiseaseResponse } from './responses/disease.response';
 import { DiseasesResponse } from './responses/diseases.response';
 import { FindPlantInput } from 'modules/plant/dto/find-plant.input';
+import { AddDiseaseToUserPlantInput } from './dto/add-disease-to-user-plant.input';
 
 @Resolver(() => Disease)
 export class DiseasesResolver {
@@ -44,8 +45,9 @@ export class DiseasesResolver {
   async addDiseaseToUserPlant(
     @Args('disease') disease: FindDiseaseInput,
     @Args('plant') plant: FindUserPlantInput,
+    @Args('input') input: AddDiseaseToUserPlantInput,
   ): Promise<DiseaseResponse> {
-    return await this.diseasesService.addDiseaseToUserPlant(disease, plant);
+    return await this.diseasesService.addDiseaseToUserPlant(disease, plant, input);
   }
 
   @Mutation(() => DeleteObjectResponse)

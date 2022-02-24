@@ -9,6 +9,7 @@ import { PlantDiseasesInput } from './dto/plant-diseases.input';
 import { DiseaseResponse } from './responses/disease.response';
 import { DiseasesEdge, DiseasesResponse } from './responses/diseases.response';
 import { FindPlantInput } from 'modules/plant/dto/find-plant.input';
+import { AddDiseaseToUserPlantInput } from './dto/add-disease-to-user-plant.input';
 
 @Injectable()
 export class DiseasesService {
@@ -64,15 +65,18 @@ export class DiseasesService {
     }
   }
 
+  // TODO: Maybe instead of finding a disease add the option to create one on the fly.
   async addDiseaseToUserPlant(
     disease: FindDiseaseInput,
     plant: FindUserPlantInput,
+    input: AddDiseaseToUserPlantInput,
   ): Promise<DiseaseResponse> {
     try {
       const updatedDisease = await this.prisma.diseasesOnPlants.create({
         data: {
           disease: { connect: disease },
           plant: { connect: plant },
+          appearedOn: input.appearedOn,
         },
         include: { disease: true },
       });
