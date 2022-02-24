@@ -47,6 +47,7 @@ CREATE TABLE "UserPlant" (
     "plantedSeedsOn" TIMESTAMP(3),
     "seedsSproutedOn" TIMESTAMP(3),
     "plotUuid" TEXT,
+    "userUuid" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -69,9 +70,12 @@ CREATE TABLE "PlantRequirements" (
 -- CreateTable
 CREATE TABLE "Plot" (
     "uuid" TEXT NOT NULL,
+    "name" TEXT DEFAULT E'Plot',
+    "description" TEXT NOT NULL DEFAULT E'',
     "sizeX" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "sizeY" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "dirtDepth" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "image" TEXT,
     "userUuid" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -83,6 +87,7 @@ CREATE TABLE "Plot" (
 CREATE TABLE "DiseasesOnPlants" (
     "plantUuid" TEXT NOT NULL,
     "diseaseUuid" TEXT NOT NULL,
+    "appearedOn" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "DiseasesOnPlants_pkey" PRIMARY KEY ("plantUuid","diseaseUuid")
 );
@@ -90,6 +95,7 @@ CREATE TABLE "DiseasesOnPlants" (
 -- CreateTable
 CREATE TABLE "Harvest" (
     "uuid" TEXT NOT NULL,
+    "image" TEXT,
     "amountHarvested" INTEGER NOT NULL DEFAULT 0,
     "harvestWeight" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "harvestedOn" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -104,7 +110,7 @@ CREATE TABLE "Harvest" (
 CREATE TABLE "Disease" (
     "uuid" TEXT NOT NULL,
     "scientificName" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
+    "description" TEXT DEFAULT E'',
     "image" TEXT,
     "plantUuid" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -121,6 +127,9 @@ CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
 -- AddForeignKey
 ALTER TABLE "Plant" ADD CONSTRAINT "Plant_requirementsUuid_fkey" FOREIGN KEY ("requirementsUuid") REFERENCES "PlantRequirements"("uuid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserPlant" ADD CONSTRAINT "UserPlant_userUuid_fkey" FOREIGN KEY ("userUuid") REFERENCES "User"("uuid") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserPlant" ADD CONSTRAINT "UserPlant_plotUuid_fkey" FOREIGN KEY ("plotUuid") REFERENCES "Plot"("uuid") ON DELETE SET NULL ON UPDATE CASCADE;

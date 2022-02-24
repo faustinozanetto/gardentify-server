@@ -317,6 +317,7 @@ export class DiseasesService {
         cursor: e.cursor,
         node: {
           ...e.e.disease,
+          appearedOn: e.e.appearedOn,
         },
       };
     });

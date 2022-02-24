@@ -108,7 +108,7 @@ export class HarvestsService {
 
     // Check if there are more pages
     const hasMore = Boolean(
-      await this.prisma.disease.count({
+      await this.prisma.harvest.count({
         take: 1,
         where: {
           createdAt: { lt: harvests[harvests.length - 1].createdAt },

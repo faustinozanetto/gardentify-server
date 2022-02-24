@@ -15,4 +15,7 @@ export class Disease extends BaseModel {
 
   @Field(() => UserPlant, { nullable: true })
   plant?: UserPlant;
+
+  @Field(() => Date, { nullable: true })
+  appearedOn?: Date;
 }
