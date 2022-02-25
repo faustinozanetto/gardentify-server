@@ -8,6 +8,7 @@ import { FindUserPlantInput } from './dto/find-user-plant.input';
 import { UserPlantResponse } from './responses/user-plant.response';
 import { UserPlantsEdge, UserPlantsResponse } from './responses/user-plants.response';
 import { parseUserAuthProvider } from 'utils/userUtilts';
+import { UpdateUserPlantInput } from './dto/update-user-plant.input';
 
 @Injectable()
 export class UserPlantsService {
@@ -179,5 +180,29 @@ export class UserPlantsService {
         endCursor: edges[edges.length - 1].cursor,
       },
     };
+  }
+
+  async updateUserPlant(input: UpdateUserPlantInput): Promise<UserPlantResponse> {
+    try {
+      const updatedPlant = await this.prisma.userPlant.update({
+        where: {
+          uuid: input.uuid,
+        },
+        data: { ...input },
+      });
+
+      // Plant updated
+      return {
+        plant: {
+          ...updatedPlant,
+          type: parsePlantType(updatedPlant.type),
+        },
+      };
+    } catch (error) {
+      // Error happened
+      return {
+        errors: [{ field: 'uuid', message: 'Failed to update plant' }],
+      };
+    }
   }
 }

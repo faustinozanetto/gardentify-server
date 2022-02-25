@@ -3,6 +3,7 @@ import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response
 import { CreateHarvestInput } from './dto/create-harvest.input';
 import { FindHarvestInput } from './dto/find-harvest.input';
 import { PlantHarvestsInput } from './dto/plant-harvests.input';
+import { UpdateHarvestInput } from './dto/update-harvest.input';
 import { HarvestsService } from './harvests.service';
 import { Harvest } from './models/harvest.model';
 import { HarvestResponse } from './responses/harvest.response';
@@ -32,5 +33,10 @@ export class HarvestsResolver {
     @Args('input') input: FindHarvestInput,
   ): Promise<DeleteObjectResponse> {
     return await this.harvestsService.deleteUserPlantHarvest(input);
+  }
+
+  @Mutation(() => HarvestResponse)
+  async updateHarvest(@Args('input') input: UpdateHarvestInput): Promise<HarvestResponse> {
+    return await this.harvestsService.updateHarvest(input);
   }
 }

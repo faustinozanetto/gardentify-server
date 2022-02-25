@@ -225,7 +225,9 @@ type Mutation {
   deleteUserPlantFromPlot(plantUuid: String!): DeleteObjectResponse!
   deleteUserPlantHarvest(input: FindHarvestInput!): DeleteObjectResponse!
   logout: Boolean!
+  updateHarvest(input: UpdateHarvestInput!): HarvestResponse!
   updatePlot(input: UpdatePlotInput!): PlotResponse!
+  updateUserPlant(input: UpdateUserPlantInput!): UserPlantResponse!
 }
 
 type Plant {
@@ -419,6 +421,14 @@ type Query {
   userPlots(input: UserPlotsInput!): PlotsResponse!
 }
 
+input UpdateHarvestInput {
+  amountHarvested: Int!
+  harvestWeight: Float!
+  harvestedOn: DateTime!
+  image: String!
+  uuid: String!
+}
+
 input UpdatePlotInput {
   description: String
   dirtDepth: Float
@@ -427,6 +437,17 @@ input UpdatePlotInput {
   sizeX: Float
   sizeY: Float
   uuid: String!
+}
+
+input UpdateUserPlantInput {
+  image: String
+  name: String!
+  plantedSeedsOn: DateTime
+  scientificName: String!
+  seedsSproutedOn: DateTime
+  type: PlantType!
+  uuid: String!
+  variety: String!
 }
 
 type User {

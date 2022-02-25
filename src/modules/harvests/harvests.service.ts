@@ -5,6 +5,7 @@ import { DeleteObjectResponse } from '../graphql/responses/deleteObject.response
 import { CreateHarvestInput } from './dto/create-harvest.input';
 import { FindHarvestInput } from './dto/find-harvest.input';
 import { PlantHarvestsInput } from './dto/plant-harvests.input';
+import { UpdateHarvestInput } from './dto/update-harvest.input';
 import { HarvestResponse } from './responses/harvest.response';
 import { HarvestsEdge, HarvestsResponse } from './responses/harvests.response';
 
@@ -140,5 +141,27 @@ export class HarvestsService {
         endCursor: edges[edges.length - 1].cursor,
       },
     };
+  }
+
+  async updateHarvest(input: UpdateHarvestInput): Promise<HarvestResponse> {
+    try {
+      const updatedHarvest = await this.prisma.harvest.update({
+        where: {
+          uuid: input.uuid,
+        },
+        data: {
+          ...input,
+        },
+      });
+
+      // Updated harvest.
+      return {
+        harvest: updatedHarvest,
+      };
+    } catch (error) {
+      return {
+        errors: [{ field: 'input', message: 'Failed to update harvest' }],
+      };
+    }
   }
 }

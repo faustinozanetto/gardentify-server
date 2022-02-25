@@ -7,6 +7,7 @@ import { UserPlant } from './models/user-plant.model';
 import { UserPlantsService } from './user-plants.service';
 import { UserPlantResponse } from './responses/user-plant.response';
 import { UserPlantsResponse } from './responses/user-plants.response';
+import { UpdateUserPlantInput } from './dto/update-user-plant.input';
 
 @Resolver(() => UserPlant)
 export class UserPlantsResolver {
@@ -30,5 +31,10 @@ export class UserPlantsResolver {
   @Mutation(() => DeleteObjectResponse)
   async deleteUserPlant(@Args('input') input: FindUserPlantInput): Promise<DeleteObjectResponse> {
     return await this.userPlantsService.deleteUserPlant(input);
+  }
+
+  @Mutation(() => UserPlantResponse)
+  async updateUserPlant(@Args('input') input: UpdateUserPlantInput): Promise<UserPlantResponse> {
+    return await this.userPlantsService.updateUserPlant(input);
   }
 }
